@@ -4,6 +4,7 @@ import NavBar from "./Components/NavBar";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Widget, addResponseMessage, renderCustomComponent} from "react-chat-widget";
 import "react-chat-widget/lib/styles.css";
+import {MessageBox} from 'react-chat-elements';
 import ReactHtmlParser from 'react-html-parser';
 import Home from "./Pages/Home";
 import LandingPage from "./Pages/LandingPage";
@@ -12,18 +13,9 @@ import "./App.css";
 import axios from "axios";
 
 const handleNewUserMessage = (newMessage) => {
-  handleSubmit(newMessage)
+  addResponseMessage("Hey");
 };
-const handleSubmit = (message) => {
-  axios.post(`http://127.0.0.1:5002/getMessage`,{ message }).then((res) => {
-    console.log(res.data);
-    addResponseMessage(res.data.text);
-    return res.data;
-  });
-};
-/* Checa esto raziel xD*/
-/*----------------------------------------------------------------------------------------------
-jaja le cree el componente en el components*/
+
 /*class Translate extends React.Component{
   render(){
     return (

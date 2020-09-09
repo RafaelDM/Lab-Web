@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[29]:
+
+
 import os
 import json
 import logging
@@ -7,17 +13,18 @@ from jsonschema import validate, ValidationError
 from ibm_watson import AssistantV2, ApiException
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from flask import jsonify
-from flask_api import status
+
+
+# In[30]:
 
 
 request_data = {
-            "assistant_api_key": "EvG4FigjVLQbUgcjtgegK4XHfhv-Nn7r3iMtZBIo1xU8",
-            "assistant_url": "https://api.us-south.assistant.watson.cloud.ibm.com/instances/2970b5ba-96c8-4342-b392-83f1e43efa31/v2/assistants/89eb5dd2-fbaf-4a28-a8f2-b8efe1ca69fb/sessions",
-            "assistant_version": "2019-02-28",
-            "assistant_id": "89eb5dd2-fbaf-4a28-a8f2-b8efe1ca69fb",
-            "session_id":        '7d918749-04bd-44f7-913c-707a745729b7'
-
-        }
+                "assistant_api_key": "EvG4FigjVLQbUgcjtgegK4XHfhv-Nn7r3iMtZBIo1xU8",
+                "assistant_url": "https://api.us-south.assistant.watson.cloud.ibm.com/instances/2970b5ba-96c8-4342-b392-83f1e43efa31",
+                "assistant_version": "2019-02-28",
+                "assistant_id": "89eb5dd2-fbaf-4a28-a8f2-b8efe1ca69fb",
+                }
+                
     
 def watson_create_session():
 
@@ -41,7 +48,7 @@ def watson_create_session():
     return watson_session_id
 
 
-def watson_response():
+def watson_response(session_id, message):
     
     iam_apikey = request_data.get("assistant_api_key")
     assistant_url = request_data.get("assistant_url")
@@ -49,7 +56,7 @@ def watson_response():
 
     assistant = watson_instance(iam_apikey, assistant_url, assistant_version)
     context = request_data.get('context') if 'context' in request_data else {}
-    watson_session_id = request_data.get('session_id')
+    watson_session_id = session_id
 
     try:
         watson_response = assistant.message(
@@ -57,7 +64,7 @@ def watson_response():
             session_id=watson_session_id,
             input={
                 'message_type': 'text',
-                'text': "precios",
+                'text': message,
                 'options': {
                     'return_context': True
                 }
@@ -100,8 +107,9 @@ def watson_response():
         "session_id": watson_session_id
     }
 
-    return response
-
+    return response["response"]["output"]
+    #response["response"]["output"]["intents"][0]["intent"]
+    #response["response"]["output"]["generic"][0]["text"]
 def watson_instance(iam_apikey: str, url: str, version: str = "2019-02-28") -> AssistantV2:
     try:
         authenticator = IAMAuthenticator(iam_apikey)
@@ -115,3 +123,10 @@ def watson_instance(iam_apikey: str, url: str, version: str = "2019-02-28") -> A
         return jsonify({'error': str(error.message)}), error.code
 
     return assistant
+
+
+# In[31]:
+
+
+print(watson_response(watson_create_session(), "Estoy aqui"))
+
