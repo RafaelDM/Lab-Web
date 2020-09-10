@@ -19,10 +19,10 @@ from flask import jsonify
 
 
 request_data = {
-                "assistant_api_key": "EvG4FigjVLQbUgcjtgegK4XHfhv-Nn7r3iMtZBIo1xU8",
-                "assistant_url": "https://api.us-south.assistant.watson.cloud.ibm.com/instances/2970b5ba-96c8-4342-b392-83f1e43efa31",
-                "assistant_version": "2019-02-28",
-                "assistant_id": "89eb5dd2-fbaf-4a28-a8f2-b8efe1ca69fb",
+                "assistant_api_key": "Pm-dvuh62kTdw1OgwR3C5So3cPWCURT1RXvHNSXpKy0H",
+            "assistant_url": "https://api.us-south.assistant.watson.cloud.ibm.com/instances/75948e07-163f-463b-8ded-b92034db3119",
+            "assistant_version": "2020-09-14",
+            "assistant_id": "1053f935-27ec-4d2f-93c4-12280814cb01"
                 }
                 
     
