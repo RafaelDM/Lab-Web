@@ -128,5 +128,5 @@ def watson_instance(iam_apikey: str, url: str, version: str = "2019-02-28") -> A
 # In[31]:
 
 
-print(watson_response(watson_create_session(), "Estoy aqui"))
+print(watson_response(watson_create_session(), "hey"))
 

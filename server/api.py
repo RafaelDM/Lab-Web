@@ -17,7 +17,7 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 from flask_api import status
 
-from IBMWatson import watson_create_session, watson_response, watson_instance
+from IBM_Whatson import watson_create_session, watson_response, watson_instance
 
 load_dotenv()
 
