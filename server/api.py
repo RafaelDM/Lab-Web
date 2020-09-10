@@ -29,9 +29,9 @@ assistant_url = os.getenv("assistant_url")
 assistant_version = os.getenv("assistant_version")
 assistant_id = os.getenv("assistant_id")
 
-# def watson_create_session():
-#     assistant_api_key = os.getenv("assistant_api_key")
-#     return assistant_api_key
+def watson_create_session():
+    assistant_api_key = os.getenv("assistant_api_key")
+    return assistant_api_key
 
 
 class GET_MESSAGE(Resource):
