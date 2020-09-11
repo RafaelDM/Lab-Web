@@ -1,14 +1,8 @@
 # API
-# IBM Watson
 import os
 import json
 import logging
 import requests
-
-from jsonschema import validate, ValidationError
-from ibm_watson import AssistantV2, ApiException
-from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
-from flask import jsonify
 
 import flask
 from flask import Flask, request
@@ -17,7 +11,10 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 from flask_api import status
 
-from IBM_Whatson import watson_create_session, watson_response, watson_instance
+from jsonschema import validate, ValidationError
+from ibm_watson import AssistantV2, ApiException
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+from flask import jsonify
 
 load_dotenv()
 
@@ -25,33 +22,118 @@ app = Flask(__name__)
 api = Api(app)
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
-assistant_url = os.getenv("assistant_url")
-assistant_version = os.getenv("assistant_version")
-assistant_id = os.getenv("assistant_id")
+assistant_api_key = os.getenv("assistant_api_key")
+
 
 def watson_create_session():
-    assistant_api_key = os.getenv("assistant_api_key")
-    return assistant_api_key
 
+    iam_apikey = os.getenv("assistant_api_key")
+    assistant_url = os.getenv("assistant_url")
+    assistant_version = os.getenv("assistant_version")
+
+    assistant = watson_instance(iam_apikey, assistant_url, assistant_version)
+
+    try:
+        watson_session = assistant.create_session(
+            assistant_id=os.getenv("assistant_id")
+        ).get_result()
+        watson_session_id = watson_session["session_id"]
+    except KeyError:
+        _logger.error("The session wasn't created")
+        return jsonify({"error": "Error creating the session"}), status.HTTP_503_SERVICE_UNAVAILABLE
+
+    return watson_session_id
+
+def watson_response(session_id1, message):
+    
+    iam_apikey = os.getenv("assistant_api_key")
+    assistant_url = os.getenv("assistant_url")
+    assistant_version = os.getenv("assistant_version")
+
+    assistant = watson_instance(iam_apikey, assistant_url, assistant_version)
+    context = {}
+    watson_session_id = session_id1
+
+    try:
+        watson_response = assistant.message(
+            assistant_id=os.getenv("assistant_id"),
+            session_id=watson_session_id,
+            input={
+                'message_type': 'text',
+                'text': message,
+                'options': {
+                    'return_context': True
+                }
+            },
+            context=context
+        ).get_result()
+    except ValueError as ex:
+        _logger.error("Value error: %s", ex)
+        return jsonify({'error': "Value error"}), status.HTTP_500_INTERNAL_SERVER_ERROR
+    except ApiException:
+        try:
+            watson_session = assistant.create_session(
+                assistant_id=os.getenv("assistant_id")
+            ).get_result()
+            watson_session_id = watson_session["session_id"]
+
+            watson_response = assistant.message(
+                assistant_id=os.getenv("assistant_id"),
+                session_id=watson_session_id,
+                input={
+                    'message_type': 'text',
+                    'text': message,
+                    'options': {
+                        'return_context': True
+                    }
+                },
+                context=context
+            ).get_result()
+        except KeyError:
+            _logger.error("The session wasn't created")
+            return jsonify({"error": "Error creating the session"}), status.HTTP_503_SERVICE_UNAVAILABLE
+
+    try:
+        del watson_response["context"]["global"]["session_id"]
+    except:
+        pass
+
+    response = {
+        "response": watson_response,
+        "session_id": watson_session_id
+    }
+
+    return response
+
+def watson_instance(iam_apikey: str, url: str, version: str = "2019-02-28") -> AssistantV2:
+    try:
+        authenticator = IAMAuthenticator(iam_apikey)
+        assistant = AssistantV2(
+            authenticator=authenticator,
+            version=version
+        )
+        assistant.set_service_url(url)
+    except ApiException as error:
+        _logger.error("%s - %s", error.code, error.message)
+        return jsonify({'error': str(error.message)}), error.code
+
+    return assistant
 
 class GET_MESSAGE(Resource):
     def post(self):
-        # Hay que añadir las funciones de watson que ya tenemos para que nos pueda regresar el intent y el mensaje
-        response = watson_response(watson_create_session(), request.json['message'])
-        print(response)
-        watson_output = response["generic"][0]["text"]        
-        if len(response['intents']) != 0:
-            intent = response["intents"][0]["intent"]
-            user_input = request.json['message']
-            print("User input: ", user_input)
-            print('Intent: ', intent)
-            print("Watson output: ", watson_output)
-            return jsonify(intent = intent, user_input = user_input, watson_output = watson_output)
-        else:
-            return jsonify(watson_output = watson_output)
+        message = request.json["message"]
+
+        print ("message: "+ message )
+
+        resp = watson_response(watson_create_session(), request.json["message"] )
+        # return jsonify( este_es_el_mensaje = request.json["message"])
+        return jsonify(
+            text=resp['response']['output']['generic'][0]["text"],
+            # intent=resp['response']['output']['intents'][0]["intent"],
+        )
 
 
-api.add_resource(GET_MESSAGE, '/getmessage')  # Route_1
+api.add_resource(GET_MESSAGE, '/getMessage')  # Route_1
 
 if __name__ == '__main__':
     app.run(port='5002')

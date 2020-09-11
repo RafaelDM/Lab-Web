@@ -9,18 +9,16 @@ import Home from "./Pages/Home";
 import LandingPage from "./Pages/LandingPage";
 import User from "./Pages/User";
 import "./App.css";
-import axios from "axios";
+import * as axios from 'axios';
 
-const handleNewUserMessage = (newMessage) => {
-  handleSubmit(newMessage)
-};
-const handleSubmit = (message) => {
-  axios.post(`http://127.0.0.1:5002/getMessage`,{ message }).then((res) => {
-    console.log(res.data);
-    addResponseMessage(res.data.text);
-    return res.data;
+const handleNewUserMessage = async (message) => {
+  const { data } = await axios.post('http://127.0.0.1:5002/getMessage', {
+    message
   });
+
+  addResponseMessage(data.text);
 };
+
 /* Checa esto raziel xD*/
 /*----------------------------------------------------------------------------------------------
 jaja le cree el componente en el components*/

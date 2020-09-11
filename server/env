@@ -1,4 +1,0 @@
-export assistant_api_key = 'Pm-dvuh62kTdw1OgwR3C5So3cPWCURT1RXvHNSXpKy0H'
-export assistant_url = 'https://api.us-south.assistant.watson.cloud.ibm.com/instances/75948e07-163f-463b-8ded-b92034db3119'
-export assistant_version = '2020-09-14'
-export assistant_id = '1053f935-27ec-4d2f-93c4-12280814cb01'
