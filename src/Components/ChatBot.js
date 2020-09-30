@@ -4,6 +4,7 @@ import 'react-chat-elements/dist/main.css';
 import axios from "axios";
 import ReactHtmlParser from 'react-html-parser';
 import "./../App.css";
+import 'bootstrap/dist/css/bootstrap.css';
 
 class Translate extends React.Component{
   render(){

@@ -9,6 +9,7 @@ import User from "./Pages/User";
 import "./App.css";
 import "./Components/ChatBot.js";
 import Chat from "./Components/ChatBot.js";
+import 'bootstrap/dist/css/bootstrap.css';
 
 
 
