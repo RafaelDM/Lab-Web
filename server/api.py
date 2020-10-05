@@ -16,6 +16,13 @@ from ibm_watson import AssistantV2, ApiException
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from flask import jsonify
 
+# Mongo libraries
+import sys
+import pymongo
+
+## Connect to mongo
+uri = "mongodb+srv://user_web:hola123@avotar.umbnv.mongodb.net/perrosperdidos?retryWrites=true&w=majority"
+
 load_dotenv()
 
 app = Flask(__name__)
@@ -103,6 +110,42 @@ def watson_response(session_id1, message):
         "session_id": watson_session_id
     }
 
+    if len(response['response']['output']['intents']) > 0:
+        intent = response['response']['output']['intents'][0]["intent"]
+    elif len(response['response']['output']['intents']) == 0 and len(response['response']['output']['entities']) > 0:
+        intent = response['response']['output']['entities'][0]["entity"]
+    else:
+        intent = 'No_intent'
+
+    html = response['response']['output']['generic'][0]["text"]
+
+    response_document = {
+        "intent": intent,
+        "html": html,
+        "message": message
+    }
+
+    insert_response(response_document)
+
+    # ## PRINT PRUEBA DE 'huskies'
+    # print('\n')
+    # print(response)
+    # print('\n')
+
+    ### PRINT PRUBA DEL DOCUMENTO
+    # print(message)
+    # print(response['response']['output']['intents'][0]["intent"])
+    # print(response['response']['output']['generic'][0]["text"])
+    # print(response_document)
+
+    # responses.insert_one(response_document)
+
+    # print('\n')
+    # intent_document = responses.find_one({"intent": intent})
+    # response_html = intent_document['html']
+    # print(response_html)
+    # print('\n')
+
     return response
 
 def watson_instance(iam_apikey: str, url: str, version: str = "2019-02-28") -> AssistantV2:
@@ -119,14 +162,26 @@ def watson_instance(iam_apikey: str, url: str, version: str = "2019-02-28") -> A
 
     return assistant
 
+def insert_response(response_document):
+    client = pymongo.MongoClient(uri)
+    db = client.get_default_database()
+    responses = db['responses']
+    responses.insert_one(response_document)
+    client.close()
+
+
 class GET_MESSAGE(Resource):
     def post(self):
         message = request.json["message"]
 
-        print ("message: "+ message )
+        # print ("message: "+ message )
 
         resp = watson_response(watson_create_session(), request.json["message"] )
+
         # return jsonify( este_es_el_mensaje = request.json["message"])
+        print('RESPONSE: \n')
+        print(resp)
+        print('\n')
         return jsonify(
             text=resp['response']['output']['generic'][0]["text"],
             # intent=resp['response']['output']['intents'][0]["intent"],
