@@ -110,6 +110,10 @@ def watson_response(session_id1, message):
         "session_id": watson_session_id
     }
 
+    print('Response \n')
+    print(response)
+    print('\n')
+
     if len(response['response']['output']['intents']) > 0:
         intent = response['response']['output']['intents'][0]["intent"]
     elif len(response['response']['output']['intents']) == 0 and len(response['response']['output']['entities']) > 0:
@@ -125,28 +129,9 @@ def watson_response(session_id1, message):
         "message": message
     }
 
-    insert_response(response_document)
+    response_html = insert_response(response_document, intent)
 
-    # ## PRINT PRUEBA DE 'huskies'
-    # print('\n')
-    # print(response)
-    # print('\n')
-
-    ### PRINT PRUBA DEL DOCUMENTO
-    # print(message)
-    # print(response['response']['output']['intents'][0]["intent"])
-    # print(response['response']['output']['generic'][0]["text"])
-    # print(response_document)
-
-    # responses.insert_one(response_document)
-
-    # print('\n')
-    # intent_document = responses.find_one({"intent": intent})
-    # response_html = intent_document['html']
-    # print(response_html)
-    # print('\n')
-
-    return response
+    return response_html
 
 def watson_instance(iam_apikey: str, url: str, version: str = "2019-02-28") -> AssistantV2:
     try:
@@ -162,12 +147,18 @@ def watson_instance(iam_apikey: str, url: str, version: str = "2019-02-28") -> A
 
     return assistant
 
-def insert_response(response_document):
+def insert_response(response_document, intent):
     client = pymongo.MongoClient(uri)
     db = client.get_default_database()
     responses = db['responses']
     responses.insert_one(response_document)
+
+    intent_document = responses.find_one({"intent": intent})
+    response_html = intent_document['html']
+
     client.close()
+
+    return response_html
 
 
 class GET_MESSAGE(Resource):
@@ -179,11 +170,11 @@ class GET_MESSAGE(Resource):
         resp = watson_response(watson_create_session(), request.json["message"] )
 
         # return jsonify( este_es_el_mensaje = request.json["message"])
-        print('RESPONSE: \n')
-        print(resp)
-        print('\n')
+        # print('RESPONSE: \n')
+        # print(resp)
+        # print('\n')
         return jsonify(
-            text=resp['response']['output']['generic'][0]["text"],
+            text=resp,
             # intent=resp['response']['output']['intents'][0]["intent"],
         )
 
