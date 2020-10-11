@@ -18,21 +18,23 @@ class NavBar extends React.Component {
 
   render() {
     return (
-      <Navbar bg="dark" variant="dark">
-        <Navbar.Brand href="/">NDS</Navbar.Brand>
-        <Nav className="mr-auto">
-          <Nav.Link href="/home">Home</Nav.Link>
-          <Nav.Link href="/user">User</Nav.Link>
-        </Nav>
+      <Navbar  variant="dark" >
+        <h3 className="logoPeti">
+        PetiFind
+        </h3>
         <Form inline>
           <FormControl
             type="text"
             onChange={this.searchItem}
             placeholder="Search"
-            className="mr-sm-2"
+            className="searchBar"
           />
-          <Button variant="outline-info">Search</Button>
+          
         </Form>
+        <Nav className="mr-auto">
+          <Nav.Link href="/home">Home</Nav.Link>
+          <Nav.Link href="/user">User</Nav.Link>
+        </Nav>
       </Navbar>
     );
   }
