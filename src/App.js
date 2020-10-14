@@ -10,7 +10,7 @@ import "./App.css";
 import Chat from "./Components/ChatBot";
 import "bootstrap/dist/css/bootstrap.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Carrusel from "./Components/Carousel";
+import Carusel from "./Components/Carousel";
 import { useAuth0 } from '@auth0/auth0-react';
 
 export default function App() {
@@ -20,6 +20,12 @@ export default function App() {
     <Router>
       <NavBar />
       <Chat/>
+      <div>
+      <Carusel image="https://i.stack.imgur.com/jZhAM.png"/>
+      </div>
+      <div>
+      <Carusel image="https://i.stack.imgur.com/jZhAM.png"/>
+      </div>
       <Switch>
         <Route exact path="/">
           <LandingPage />
