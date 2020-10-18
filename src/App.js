@@ -7,20 +7,25 @@ import Home from "./Pages/Home";
 import LandingPage from "./Pages/LandingPage";
 import User from "./Pages/User";
 import "./App.css";
-import "./Components/ChatBot.js";
-import Chat from "./Components/ChatBot.js";
-import 'bootstrap/dist/css/bootstrap.css';
-
-
-
+import Chat from "./Components/ChatBot";
+import "bootstrap/dist/css/bootstrap.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Carusel from "./Components/Carousel";
+import { useAuth0 } from '@auth0/auth0-react';
 
 export default function App() {
+  const { isLoading } = useAuth0();
+  if (isLoading) return <div>Loading...</div>
   return (
     <Router>
       <NavBar />
-
       <Chat/>
-     
+      <div>
+      <Carusel image="https://i.stack.imgur.com/jZhAM.png"/>
+      </div>
+      <div>
+      <Carusel image="https://i.stack.imgur.com/jZhAM.png"/>
+      </div>
       <Switch>
         <Route exact path="/">
           <LandingPage />

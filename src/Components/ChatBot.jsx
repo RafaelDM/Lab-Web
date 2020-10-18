@@ -4,7 +4,9 @@ import 'react-chat-elements/dist/main.css';
 import axios from "axios";
 import ReactHtmlParser from 'react-html-parser';
 import "./../App.css";
+import Carousel from 'react-bootstrap/Carousel';
 import 'bootstrap/dist/css/bootstrap.css';
+import Carrousel from "./Carousel";
 
 class Translate extends React.Component{
   render(){
@@ -32,7 +34,8 @@ class Chat extends React.Component{
         handleNewUserMessage={this.handleNewUserMessage}
         title="CHATBOT"
         subtitle="Ask me"
-      />
+        />
+        //<Carrousel dogTitle={"Hola Soy un perro"} imageCar={"https://64.media.tumblr.com/fa7297b4cb7a85476ff749055da39615/bd1377c44bd08281-94/s540x810/a1ef2f725ab1ea344023eaefde5c8af972634c1d.gifv"}/>
     )
   }
 }
