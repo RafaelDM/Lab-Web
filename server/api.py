@@ -1,3 +1,5 @@
+from twilio.rest import Client 
+from twilio.twiml.messaging_response import Body, Message, Redirect, MessagingResponse
 # API
 import os
 import json
@@ -22,6 +24,11 @@ import pymongo
 
 ## Connect to mongo
 uri = "mongodb+srv://user_web:hola123@avotar.umbnv.mongodb.net/perrosperdidos?retryWrites=true&w=majority"
+
+## Whatsapp/Twilio id, token
+account_sid = 'AC3e78880c8d4ae0f9f463b33acd709f08' 
+auth_token = '87f54804e2d81efd66b0a8c24cfb39b1' 
+client = Client(account_sid, auth_token) 
 
 load_dotenv()
 
@@ -51,7 +58,7 @@ def watson_create_session():
 
     return watson_session_id
 
-def watson_response(session_id1, message):
+def watson_response(session_id1, message, source):
     
     iam_apikey = os.getenv("assistant_api_key")
     assistant_url = os.getenv("assistant_url")
@@ -121,17 +128,18 @@ def watson_response(session_id1, message):
     else:
         intent = 'No_intent'
 
-    html = response['response']['output']['generic'][0]["text"]
+    response_message = obtain_message(intent, source)
 
-    response_document = {
+    message_document = {
         "intent": intent,
-        "html": html,
-        "message": message
+        "response_message": response_message,
+        "received_message": message,
+        "source": source
     }
 
-    response_html = insert_response(response_document, intent)
+    save_response(message_document, intent)
 
-    return response_html
+    return response_message
 
 def watson_instance(iam_apikey: str, url: str, version: str = "2019-02-28") -> AssistantV2:
     try:
@@ -147,39 +155,55 @@ def watson_instance(iam_apikey: str, url: str, version: str = "2019-02-28") -> A
 
     return assistant
 
-def insert_response(response_document, intent):
+def save_response(response_document, intent):
+    client = pymongo.MongoClient(uri)
+    db = client.get_default_database()
+    messages = db['messages']
+    messages.insert_one(response_document)
+    client.close()
+
+def obtain_message(intent, source):
     client = pymongo.MongoClient(uri)
     db = client.get_default_database()
     responses = db['responses']
-    responses.insert_one(response_document)
-
     intent_document = responses.find_one({"intent": intent})
-    response_html = intent_document['html']
-
+    if source == 'chatbot':
+        response_message = intent_document['html']
+    elif source == 'whatsapp':
+        response_message = intent_document['whatsapp']
     client.close()
+    return response_message
 
-    return response_html
-
-
-class GET_MESSAGE(Resource):
+class GET_MESSAGE_CHATBOT(Resource):
     def post(self):
         message = request.json["message"]
 
         # print ("message: "+ message )
+        resp_html = watson_response(watson_create_session(), request.json["message"], 'chatbot')
 
-        resp = watson_response(watson_create_session(), request.json["message"] )
-
-        # return jsonify( este_es_el_mensaje = request.json["message"])
-        # print('RESPONSE: \n')
-        # print(resp)
-        # print('\n')
         return jsonify(
-            text=resp,
+            text=resp_html,
             # intent=resp['response']['output']['intents'][0]["intent"],
         )
 
+def whatsapp_response(message):
 
-api.add_resource(GET_MESSAGE, '/getMessage')  # Route_1
+    message_body = watson_response(watson_create_session(), message, 'whatsapp')
+
+    message_response = client.messages.create( 
+                              from_='whatsapp:+14155238886',  
+                              body=message_body,      
+                              to='whatsapp:+5218332326309' 
+                          ) 
+
+class GET_MESSAGE_WHATSAPP(Resource):
+    def post(self):
+        message = request.values.get("Body")
+        whatsapp_response(message)
+
+
+api.add_resource(GET_MESSAGE_CHATBOT, '/getMessage')  # Route_1 Chatbot
+api.add_resource(GET_MESSAGE_WHATSAPP, '/getMessageWhatsapp')  # Route_2 Whatsapp 
 
 if __name__ == '__main__':
     app.run(port='5002')
