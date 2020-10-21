@@ -37,7 +37,6 @@ class NavBar extends React.Component {
             className="mr-sm-2"
           />
           <Button variant="outline-info">Search</Button>
-          <LoginButton/>
           <LogoutButton/>
         </Form>
       </Navbar>

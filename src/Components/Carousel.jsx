@@ -1,8 +1,8 @@
 import React from 'react';
 //import "./Carousel.css";
 import { Carousel ,Card} from "react-bootstrap";
-function Carusel({image, pCaption}){
 
+function Carusel({image, pCaption}){
         return(
             <>
                 <Carousel style={{width: '200px', height:'200px'}}>
