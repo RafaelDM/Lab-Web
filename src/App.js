@@ -20,7 +20,9 @@ export default function App() {
     <Router>
       
       <NavBar />
-      <Carusel image="https://i.stack.imgur.com/jZhAM.png" pCaption="Esto Cuesta dos pesos" />
+
+      <Carusel image="https://i.stack.imgur.com/jZhAM.png" pCaption="Esto Cuesta dos pesos"/>
+
       <Chat/>
       <div>
       <LoginButton/>
