@@ -2,45 +2,44 @@ import React from 'react';
 //import "./Carousel.css";
 import { Carousel ,Card} from "react-bootstrap";
 
-function Carusel({image, pCaption}){
+function Carusel({image1, pC1, pri1, image2, pC2, pri2, image3, pC3, pri3}){
         return(
             <>
                 <Carousel style={{width: '200px', height:'200px'}}>
                     <Carousel.Item>
                         <Card style={{ width: '100%' }}>
-                            <Card.Img style={{ height: '100px' }} src={image} />
+                            <Card.Img style={{ height: '100px' }} src={image1} />
                             <Card.Body>
-                                <Card.Title>{pCaption}</Card.Title>
+                                <Card.Title>{pC1}</Card.Title>
                             <Card.Text>
-                                &#36;299
+                                {pri1}
                             </Card.Text>
                             </Card.Body>
                         </Card>
                     </Carousel.Item>
                     <Carousel.Item>
                         <Card style={{ width: '100%' }}>
-                            <Card.Img style={{ height: '100px' }}  src={image} />
+                            <Card.Img style={{ height: '100px' }}  src={image2} />
                             <Card.Body>
-                            <Card.Title>{pCaption}</Card.Title>
+                            <Card.Title>{pC2}</Card.Title>
                             <Card.Text>
-                                &#36;299
+                                {pri2}
                             </Card.Text>
                             </Card.Body>
                         </Card>
                     </Carousel.Item>
                     <Carousel.Item>
                         <Card style={{ width: '100%' }}>
-                            <Card.Img style={{ height: '100px' }}  src={image} />
+                            <Card.Img style={{ height: '100px' }}  src={image3} />
                             <Card.Body>
-                            <Card.Title>{pCaption}</Card.Title>
+                            <Card.Title>{pC3}</Card.Title>
                             <Card.Text>
-                                &#36;299
+                                {pri3}
                             </Card.Text>
                             </Card.Body>
                         </Card>
                     </Carousel.Item>
                 </Carousel>
-            
             </>
         ) 
 }
