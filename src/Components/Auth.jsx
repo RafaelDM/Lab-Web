@@ -30,7 +30,9 @@ const Login = () => {
   
       <div class="text-center">
         <br></br>
-        <h1>Bienvenido a Petifind</h1>
+        <h3 className="logoPetifind">
+        PetiFind
+        </h3>
         <br></br>
         <button type="button" class="btn btn-primary btn-lg" onClick={ () => loginWithRedirect()}>
           Log In

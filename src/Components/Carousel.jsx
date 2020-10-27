@@ -1,11 +1,11 @@
 import React from 'react';
-//import "./Carousel.css";
+import "./some.css";
 import { Carousel ,Card} from "react-bootstrap";
 
 function Carusel({image1, pC1, pri1, image2, pC2, pri2, image3, pC3, pri3}){
         return(
             <>
-                <Carousel style={{width: '200px', height:'200px'}}>
+                <Carousel style={{width: '200px', height:'200px'}} className="elCarousel">
                     <Carousel.Item>
                         <Card style={{ width: '100%' }}>
                             <Card.Img style={{ height: '100px' }} src={image1} />

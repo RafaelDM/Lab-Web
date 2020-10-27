@@ -1,7 +1,8 @@
 import React from "react";
-import { Navbar, Nav, Form, FormControl, Button } from "react-bootstrap";
+import { Navbar, Nav, Form, FormControl} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import LogoutButton from './Logout';
+import "./some.css";
 class NavBar extends React.Component {
   constructor(props) {
     super(props);
@@ -19,9 +20,11 @@ class NavBar extends React.Component {
   render() {
     return (
       <Navbar  variant="dark" >
-        <h3 className="logoPeti">
+        
+        <h1 className="logoPeti">
         PetiFind
-        </h3>
+        </h1>
+        
         <Form inline>
           <FormControl
             type="text"

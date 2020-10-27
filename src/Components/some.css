@@ -5,6 +5,9 @@
 .btn-primary:focus {
     background-color: #eb1a47;
     border-color: #eb1a47;
+    color:white;
+    font-family: 'Sansita Swashed', cursive;
+    
 }
 .loginPage{
     color: white;
@@ -13,3 +16,12 @@
     height: 700px;
 
 }
+.logoPetifind{
+    color:white;
+    font-family: 'Sansita Swashed', cursive;
+    font-size: 80px;
+    
+  }
+  .elCarousel{
+      color:black;
+  }
