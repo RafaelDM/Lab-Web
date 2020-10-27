@@ -1,0 +1,31 @@
+.post{
+    max-width: 500px;
+    background-color: #15202B;
+    border-bottom: 1px;
+    border-top: 0;
+    border-left: 1px;
+    border-right: 1px;
+    border-style: solid;
+    border-color: rgb(56, 68, 77);
+    border-radius: 3px;
+}
+.imagePost{
+    width: 100%;
+    object-fit: contain;
+    border-bottom: 1px solid #38444D;
+    border-top: 1px solid #38444D;
+}
+.postText{
+    font-weight: normal;
+    padding: 20px;
+    color: aliceblue;
+}
+.postHeader{
+    display: flex;
+    padding: 20px;
+    align-items: center;
+    color: aliceblue;
+}
+.postAvatar{
+    margin-right: 10px;
+}

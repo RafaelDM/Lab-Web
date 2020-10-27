@@ -1,18 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@600&display=swap');
+
 .App {
-  text-align: center;
+  background-color: #15202B;
+  height: auto;
+  width: auto;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -42,8 +34,12 @@
 }
 
 .rcw-conversation-container > .rcw-header {
-  background-color: rgb(4, 160, 152);
+  background-color: #192734;
 }
+.rcw-launcher{
+  background-color:#1A91DA;
+}
+
 .rcw-message > .rcw-response {
   color: rgb(0, 0, 0);
   font-size: 20px;
@@ -52,16 +48,39 @@
   margin: 0;
 }
 .rcw-response .rcw-message-text {
-  background-color: rgb(4, 160, 152);
+  background-color: #192734;
   
 }
-
 .burbujita{
   background-color: rgba(15, 201, 191);
   border-radius: 10px;
-    padding: 15px;
+  padding: 15px;
 }
 .rcw-timestamp {
   font-size: 0;
   margin-top: 0px;
+}
+
+.logoPeti{
+  color:white;
+  font-family: 'Sansita Swashed', cursive;
+  padding-right: 20px;
+}
+.navBar{
+  background-color: #15202B;
+  border-bottom: 1px solid rgb(37, 51, 65);
+  object-fit: contain;
+}
+.searchBar{
+    height: 34px;
+}
+
+.column {
+  float: left;
+  width: 33.33%;
+}
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
 }

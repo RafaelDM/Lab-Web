@@ -11,9 +11,9 @@ import Carusel from "./Carousel";
 
 class Translate extends React.Component{
   render(){
-    console.log(this.props.text);
+    //console.log(this.props.text);
 
-    if(this.props.text.includes('carou')){
+    if(this.props.text.includes('carousel')){
       var completo= this.props.text.split(',');
       console.log(completo);
       var im1 =completo[0]
@@ -30,7 +30,7 @@ class Translate extends React.Component{
       //var pCapt= completo[1]
       //var len= completo.length-1
       
-      console.log('Entre Al Carousel');
+      //console.log('Entre Al Carousel');
       return (
         <div className="burbujita">
         <Carusel image1={im1} pC1={pc1} pri1={pr1} image2={im2} pC2={pc2} pri2={pr2} image3={im3} pC3={pc3} pri3={pr3} >
@@ -39,7 +39,7 @@ class Translate extends React.Component{
         </div>);
   }
     else{
-      console.log('No entre Al Carousel');
+      //console.log('No entre Al Carousel');
     return (
       <div className="burbujita">
       {ReactHtmlParser(this.props.text)}
