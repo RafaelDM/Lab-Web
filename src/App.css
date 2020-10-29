@@ -16,6 +16,9 @@
   width: auto;
 
 }
+.card-img{
+  border-radius: 40%;
+}
 .App-header {
   background-color: #282c34;
   min-height: 100vh;

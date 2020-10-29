@@ -21,8 +21,13 @@ console.log(user);
 
           <Col md={{ span: 6, offset: 4 }}>
 
-          <Card bg="light" text="dark" style={{ width: '18rem' }}>
-            <Card.Img variant="top" src={user.picture} />
+          <Card bg="light" text="dark" style={{ width: '18rem' } } className="mb-3">
+            <Image 
+              src = {user.picture}
+              className = "card-img-top"
+              fluid
+              roundedCircle
+            />
               <Card.Body>
                 <Card.Title>{user.name}</Card.Title>
                 <Card.Text>
