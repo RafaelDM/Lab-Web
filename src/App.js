@@ -1,55 +1,40 @@
-import React,  {useState, useEffect} from "react";
+import React  from "react";
 import NavBar from "./Components/NavBar";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route , Redirect} from "react-router-dom";
 import "react-chat-widget/lib/styles.css";
 import Home from "./Pages/Home";
-import LandingPage from "./Pages/LandingPage";
 import User from "./Pages/User";
 import "./App.css";
 import Chat from "./Components/ChatBot";
 import "bootstrap/dist/css/bootstrap.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import Post from "./Components/Post/Post";
-import {db} from "./DB/firebase.jsx";
-
+ import {Container, Col, Row} from 'react-bootstrap';
 
 export default function App() {
-  const [posts, setPosts] = useState([]);
-  useEffect(()=>{
-    db.collection('Posts').onSnapshot(snapshot=>{
-      setPosts(snapshot.docs.map(doc=>({
-        id: doc.id,
-        post: doc.data()
-      })));
-    })
-  },[]);
   return (
+    
+
+    <Router>
 
     <div className="App">
       <div className="navBar">
       <NavBar/>
       </div>
-    <div className="row">
+      <Container>
+          <Row>
+            <Col> <Col md={{ span: 3, offset: 8 }}><Chat></Chat></Col></Col>
+          </Row>
 
-      
-      <div className="column">
-        {/* Columna Izquierda */}
-      </div>
-
-      <div className="column">
-
-      {
-      posts.map(({id, post})=>(
-        <Post key={id} caption={post.caption} username={post.username} imageUrl={post.imageUrl}/>
-      ))
-      }
-        </div>
-    <div className="column">
-      {/*Columna Derecha */}
-      <Chat/>    
+      </Container>
     </div>
-  </div>
-  </div>
+      <Switch>
+      <Route exact path="/">
+          <Redirect to="/Home" />
+        </Route>
+      <Route path="/home" component={Home}/>
+      <Route path="/user" component={User}/>
+      </Switch>
+  </Router>
   );
 }

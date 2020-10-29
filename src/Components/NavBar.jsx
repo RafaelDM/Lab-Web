@@ -1,6 +1,6 @@
 import React from "react";
 import { Navbar, Nav, Form, FormControl} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
+//import "bootstrap/dist/css/bootstrap.min.css";
 import LogoutButton from './Logout';
 import "./some.css";
 class NavBar extends React.Component {
