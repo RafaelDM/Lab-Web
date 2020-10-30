@@ -27,7 +27,7 @@ uri = "mongodb+srv://user_web:hola123@avotar.umbnv.mongodb.net/perrosperdidos?re
 
 ## Whatsapp/Twilio id, token
 account_sid = 'AC3e78880c8d4ae0f9f463b33acd709f08' 
-auth_token = '87f54804e2d81efd66b0a8c24cfb39b1' 
+auth_token = '67c1d397185e506137833947a3cfce15' 
 client = Client(account_sid, auth_token) 
 
 load_dotenv()
@@ -121,17 +121,45 @@ def watson_response(session_id1, message, source):
     print(response)
     print('\n')
 
-    if len(response['response']['output']['intents']) > 0:
+    print('INTENT?')
+    print(len(response['response']['output']['intents']) > 0)
+    print('THE INTENT')
+    print(response['response']['output']['intents'])
+    print('\n')
+
+    print('ENTITY?')
+    print(len(response['response']['output']['entities']) > 0)
+    print('THE ENTITY')
+    print(response['response']['output']['entities'][0]['entity'])
+    print('THE ENTITY VAlUE')
+    print(response['response']['output']['entities'][0]['value'])
+    print('\n')
+
+    intent = ''
+    entity = ''
+    entity_value = ''
+
+    if len(response['response']['output']['intents']) > 0 and len(response['response']['output']['entities']) > 0:
         intent = response['response']['output']['intents'][0]["intent"]
+        entity = response['response']['output']['entities'][0]["entity"]
+        entity_value = response['response']['output']['entities'][0]["value"]
     elif len(response['response']['output']['intents']) == 0 and len(response['response']['output']['entities']) > 0:
-        intent = response['response']['output']['entities'][0]["entity"]
+        intent = 'No_intent'
+        entity = response['response']['output']['entities'][0]["entity"]
+        entity_value = response['response']['output']['entities'][0]["value"]
+    elif len(response['response']['output']['intents']) > 0 and len(response['response']['output']['entities']) == 0:
+        intent = 'No_intent'
+        entity = 'No_entity'
+        entity_value = 'No_entityValue'
     else:
         intent = 'No_intent'
 
-    response_message = obtain_message(intent, source)
+    response_message = obtain_message(intent, entity, entity_value, source)
 
     message_document = {
         "intent": intent,
+        "entity": entity,
+        "entity_value": entity_value,
         "response_message": response_message,
         "received_message": message,
         "source": source
@@ -162,11 +190,20 @@ def save_response(response_document, intent):
     messages.insert_one(response_document)
     client.close()
 
-def obtain_message(intent, source):
+def obtain_message(intent, entity, entity_value, source):
     client = pymongo.MongoClient(uri)
     db = client.get_default_database()
     responses = db['responses']
-    intent_document = responses.find_one({"intent": intent})
+    intent_document = responses.find_one({"intent": intent, "entity": entity, "entity_value": entity_value})
+    # print('INTENT?')
+    # print(intent)
+    # print('\n')
+
+    # print('ENTITY?')
+    # print(entity)
+    # print('THE ENTITY VAlUE')
+    # print(entity_value)
+    # print('\n')
     if source == 'chatbot':
         response_message = intent_document['html']
     elif source == 'whatsapp':

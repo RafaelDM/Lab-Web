@@ -13,7 +13,7 @@ class Translate extends React.Component{
   render(){
     console.log(this.props.text);
 
-    if(this.props.text.includes('carou')){
+    if(this.props.text.includes('carousel')){
       var completo= this.props.text.split(',');
       console.log(completo);
       var im1 =completo[0]
