@@ -1,0 +1,27 @@
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:visited,
+.btn-primary:focus {
+    background-color: #eb1a47;
+    border-color: #eb1a47;
+    color:white;
+    font-family: 'Sansita Swashed', cursive;
+    
+}
+.loginPage{
+    color: white;
+    background-color: rgb(37, 51, 65);
+    max-width: auto;
+    height: 700px;
+
+}
+.logoPetifind{
+    color:white;
+    font-family: 'Sansita Swashed', cursive;
+    font-size: 80px;
+    
+  }
+  .elCarousel{
+      color:black;
+  }

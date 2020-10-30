@@ -1,12 +1,41 @@
-import React from "react";
+import React,  {useState, useEffect} from "react";
+import "../App.css";
+import Post from "../Components/Post/Post";
+import {db} from "../DB/firebase.jsx";
 
-class Home extends React.Component {
-  render() {
+export default function Home ()
+  {
+    const [posts, setPosts] = useState([]);
+    useEffect(()=>{
+      db.collection('Posts').onSnapshot(snapshot=>{
+        setPosts(snapshot.docs.map(doc=>({
+          id: doc.id,
+          post: doc.data()
+        })));
+      })
+    },[]);
+
     return (
-      <div>
-        <h1>Home...</h1>
+      <div className="Home">
+      <div className="row">
+      
+      <div className="column">
+        {/* Columna Izquierda */}
+      </div>
+
+        <div className="column">
+
+        {
+        posts.map(({id, post})=>(
+            <Post key={id} caption={post.caption} username={post.username} imageUrl={post.imageUrl}/>
+         ))
+         }
+      </div>
+  
+
+      </div>
       </div>
     );
-  }
+  
 }
-export default Home;
+
