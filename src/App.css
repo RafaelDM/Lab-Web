@@ -5,6 +5,20 @@
   height: auto;
   width: auto;
 }
+.Home{
+  background-color: #15202B;
+  height: auto;
+  width: auto;
+}
+.User{
+  background-color: #15202B;
+  height: auto;
+  width: auto;
+
+}
+.card-img{
+  border-radius: 40%;
+}
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
