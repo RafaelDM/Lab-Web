@@ -1,0 +1,21 @@
+.dogID{
+    max-width: 200px;
+    max-height: auto;
+    background-color: rgb(32, 60, 85);
+}
+.imageDog{
+    max-width: 100%;
+    max-height: 100%;
+
+}
+.dogInfo{
+    font-weight: normal;
+    padding: 2px;
+    color: aliceblue;
+}
+.dogHead{
+    padding: 5px;
+    object-fit: contain;
+    align-items: center;
+    color: aliceblue;
+}

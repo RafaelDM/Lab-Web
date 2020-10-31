@@ -14,7 +14,6 @@
   background-color: #15202B;
   height: auto;
   width: auto;
-
 }
 .card-img{
   border-radius: 40%;
@@ -64,20 +63,37 @@
 }
 .rcw-response .rcw-message-text {
   background-color: #192734;
-  color: black;
+  color: white;
   
 }
+.rcw-client .rcw-message-text {
+  background-color: #1A91DA;
+  color:white;
+}
+
 .burbujita{
-  background-color: rgba(15, 201, 191);
+  background-color: rgb(32, 60, 85);
   border-radius: 10px;
   padding: 15px;
-  color: black;
+  color: white;
+  max-width: auto;
+  max-height: auto;
+  display: flex;
+
+}
+.burbujaCar{
+  background-color: rgb(32, 60, 85);
+  border-radius: 10px;
+  padding: 15px;
+  color: white;
+  max-width: auto;
+  max-height: auto;
+  display: flex;
 }
 .rcw-timestamp {
   font-size: 0;
   margin-top: 0px;
 }
-
 .logoPeti{
   color:white;
   font-family: 'Sansita Swashed', cursive;

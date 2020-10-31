@@ -7,9 +7,9 @@ function Carusel({image1, pC1, pri1, image2, pC2, pri2, image3, pC3, pri3}){
             <>
                 <Carousel style={{width: '200px', height:'200px'}} className="elCarousel">
                     <Carousel.Item>
-                        <Card style={{ width: '100%' }}>
-                            <Card.Img style={{ height: '100px' }} src={image1} />
-                            <Card.Body>
+                        <Card style={{ width: '100%' }} className="carTar">
+                            <Card.Img style={{ height: '100px' }} src={image1}/>
+                            <Card.Body className="cardCar">
                                 <Card.Title>{pC1}</Card.Title>
                             <Card.Text>
                                 {pri1}
@@ -18,9 +18,9 @@ function Carusel({image1, pC1, pri1, image2, pC2, pri2, image3, pC3, pri3}){
                         </Card>
                     </Carousel.Item>
                     <Carousel.Item>
-                        <Card style={{ width: '100%' }}>
+                        <Card style={{ width: '100%' }} className="carTar">
                             <Card.Img style={{ height: '100px' }}  src={image2} />
-                            <Card.Body>
+                            <Card.Body className="cardCar">
                             <Card.Title>{pC2}</Card.Title>
                             <Card.Text>
                                 {pri2}
@@ -29,9 +29,9 @@ function Carusel({image1, pC1, pri1, image2, pC2, pri2, image3, pC3, pri3}){
                         </Card>
                     </Carousel.Item>
                     <Carousel.Item>
-                        <Card style={{ width: '100%' }}>
+                        <Card style={{ width: '100%' }} className="carTar">
                             <Card.Img style={{ height: '100px' }}  src={image3} />
-                            <Card.Body>
+                            <Card.Body className="cardCar">
                             <Card.Title>{pC3}</Card.Title>
                             <Card.Text>
                                 {pri3}

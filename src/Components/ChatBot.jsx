@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import parse from 'html-react-parser';
 import renderHTML from 'react-render-html';
 import Carusel from "./Carousel";
+import Dogid from "./dogID";
 
 class Translate extends React.Component{
   render(){
@@ -25,24 +26,31 @@ class Translate extends React.Component{
       var im3 =completo[6]
       var pc3=completo[7]
       var pr3=completo[8]
-
-      //var imagen=completo[0]
-      //var pCapt= completo[1]
-      //var len= completo.length-1
-      
       //console.log('Entre Al Carousel');
       return (
-        <div className="burbujita">
-        <Carusel image1={im1} pC1={pc1} pri1={pr1} image2={im2} pC2={pc2} pri2={pr2} image3={im3} pC3={pc3} pri3={pr3} >
+        <div className="burbujaCar">
+          <Carusel image1={im1} pC1={pc1} pri1={pr1} image2={im2} pC2={pc2} pri2={pr2} image3={im3} pC3={pc3} pri3={pr3}/>
+        </div>);
+  }
+  else if(this.props.text.includes('credog')){
+    var completo= this.props.text.split(',');
+      console.log(completo);
+      var nombre =completo[0]
+      var breed =completo[1]
+      var age =completo[2]
+      var loca=completo[3]
+      var dogIma=completo[4]
 
-        </Carusel>
+      return (
+        <div className="burbujita">
+          <Dogid dogName={nombre} raza={breed} edad={age} ubicacion={loca} imageUrl={dogIma}/>
         </div>);
   }
     else{
       //console.log('No entre Al Carousel');
     return (
       <div className="burbujita">
-      {ReactHtmlParser(this.props.text)}
+        {ReactHtmlParser(this.props.text)}
       </div>);
     }
     }}

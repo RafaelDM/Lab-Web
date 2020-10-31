@@ -2,13 +2,13 @@
 .btn-primary:hover,
 .btn-primary:active,
 .btn-primary:visited,
-.btn-primary:focus {
+.btn-primary:focus{
     background-color: #eb1a47;
     border-color: #eb1a47;
     color:white;
     font-family: 'Sansita Swashed', cursive;
-    
 }
+
 .loginPage{
     color: white;
     background-color: rgb(37, 51, 65);
@@ -23,5 +23,20 @@
     
   }
   .elCarousel{
-      color:black;
+      color:white;
+      border-color: rgb(37, 51, 65) ;
+      border: 0ch;
   }
+  .cardCar{
+    background-color: rgb(32, 60, 85);
+    border-color: rgb(37, 51, 65) ;
+    border: 0ch;
+  }
+
+.carousel-indicators li{
+    background-color:transparent !important;
+}
+.carTar{
+    border: 0;
+    border-color: rgb(37, 51, 65);
+}

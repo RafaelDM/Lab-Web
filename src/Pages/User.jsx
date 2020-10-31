@@ -2,25 +2,15 @@ import React from "react";
 import {Container, Col, Row, Card, Image, Button} from 'react-bootstrap';
 import { useAuth0 } from '@auth0/auth0-react';
 
-
-
-
-
 export default function Home (){
-
-
 
 const { user } = useAuth0();
  
 console.log(user);
     return (
-
       <Container fluid="md">
         <Row>
-
-
           <Col md={{ span: 6, offset: 4 }}>
-
           <Card bg="light" text="dark" style={{ width: '18rem' } } className="mb-3">
             <Image 
               src = {user.picture}
@@ -41,9 +31,4 @@ console.log(user);
       </Container>
 
     );
-  
 }
-
-//
-//
-//<Image src="holder.js/171x180" roundedCircle />
