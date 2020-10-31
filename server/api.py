@@ -121,20 +121,6 @@ def watson_response(session_id1, message, source):
     print(response)
     print('\n')
 
-    # print('INTENT?')
-    # print(len(response['response']['output']['intents']) > 0)
-    # print('THE INTENT')
-    # print(response['response']['output']['intents'])
-    # print('\n')
-
-    # print('ENTITY?')
-    # print(len(response['response']['output']['entities']) > 0)
-    # print('THE ENTITY')
-    # print(response['response']['output']['entities'][0]['entity'])
-    # print('THE ENTITY VAlUE')
-    # print(response['response']['output']['entities'][0]['value'])
-    # print('\n')
-
     intent = ''
     entity = ''
     entity_value = ''
@@ -219,35 +205,15 @@ class GET_MESSAGE_CHATBOT(Resource):
     def post(self):
         message = request.json["message"]
 
-        # print ("message: "+ message )
         resp_html = watson_response(watson_create_session(), request.json["message"], 'chatbot')
 
         return jsonify(
             text=resp_html,
-            # intent=resp['response']['output']['intents'][0]["intent"],
         )
 
 def whatsapp_response(message):
 
     whatsapp_message = watson_response(watson_create_session(), message, 'whatsapp')
-
-    # print("WHATSAPP response_message")
-    # print(whatsapp_message["response_message"])
-    # print('\n')
-    # print("WHATSAPP image")
-    # print(whatsapp_message["image"])
-    # print('\n')
-    # print("JSON de whatsapp")
-    # print(json.loads(whatsapp_message))
-    # print('\n')
-
-    # message_response = client.messages.create( 
-    #                     from_='whatsapp:+14155238886',  
-    #                     # body=whatsapp_message["mensaje"][0],     
-    #                     body='Check out this owl!',
-    #                     media_url='https://img.freepik.com/vector-gratis/circulo-brillante-iluminacion-purpura-aislado-sobre-fondo-oscuro_1441-2396.jpg?size=626&ext=jpg', 
-    #                     to='whatsapp:+5218332326309' 
-    #                 ) 
 
     if len(whatsapp_message["mensaje"]) > 0: 
         for idx, val in enumerate(whatsapp_message["mensaje"]):
