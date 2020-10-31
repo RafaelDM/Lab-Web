@@ -27,7 +27,7 @@ uri = "mongodb+srv://user_web:hola123@avotar.umbnv.mongodb.net/perrosperdidos?re
 
 ## Whatsapp/Twilio id, token
 account_sid = 'AC3e78880c8d4ae0f9f463b33acd709f08' 
-auth_token = '67c1d397185e506137833947a3cfce15' 
+auth_token = 'a7cf544c81244eac44bb20bce6919a3f' 
 client = Client(account_sid, auth_token) 
 
 load_dotenv()
@@ -167,7 +167,10 @@ def watson_response(session_id1, message, source):
 
     save_response(message_document, intent)
 
-    return response_message
+    if source == 'chatbot':
+        return response_message
+    elif source == 'whatsapp':
+        return json.loads(response_message)
 
 def watson_instance(iam_apikey: str, url: str, version: str = "2019-02-28") -> AssistantV2:
     try:
@@ -195,15 +198,16 @@ def obtain_message(intent, entity, entity_value, source):
     db = client.get_default_database()
     responses = db['responses']
     intent_document = responses.find_one({"intent": intent, "entity": entity, "entity_value": entity_value})
-    # print('INTENT?')
-    # print(intent)
-    # print('\n')
+    print('INTENT?')
+    print(intent)
+    print('\n')
 
-    # print('ENTITY?')
-    # print(entity)
-    # print('THE ENTITY VAlUE')
-    # print(entity_value)
-    # print('\n')
+    print('ENTITY?')
+    print(entity)
+    print('THE ENTITY VAlUE')
+    print(entity_value)
+    print('\n')
+
     if source == 'chatbot':
         response_message = intent_document['html']
     elif source == 'whatsapp':
@@ -225,13 +229,51 @@ class GET_MESSAGE_CHATBOT(Resource):
 
 def whatsapp_response(message):
 
-    message_body = watson_response(watson_create_session(), message, 'whatsapp')
+    whatsapp_message = watson_response(watson_create_session(), message, 'whatsapp')
 
-    message_response = client.messages.create( 
+    # print("WHATSAPP response_message")
+    # print(whatsapp_message["response_message"])
+    # print('\n')
+    # print("WHATSAPP image")
+    # print(whatsapp_message["image"])
+    # print('\n')
+    # print("JSON de whatsapp")
+    # print(json.loads(whatsapp_message))
+    # print('\n')
+
+    # message_response = client.messages.create( 
+    #                     from_='whatsapp:+14155238886',  
+    #                     # body=whatsapp_message["mensaje"][0],     
+    #                     body='Check out this owl!',
+    #                     media_url='https://img.freepik.com/vector-gratis/circulo-brillante-iluminacion-purpura-aislado-sobre-fondo-oscuro_1441-2396.jpg?size=626&ext=jpg', 
+    #                     to='whatsapp:+5218332326309' 
+    #                 ) 
+
+    if len(whatsapp_message["mensaje"]) > 0: 
+        for idx, val in enumerate(whatsapp_message["mensaje"]):
+            message_response = client.messages.create( 
                               from_='whatsapp:+14155238886',  
-                              body=message_body,      
+                              body=whatsapp_message["mensaje"][idx],      
                               to='whatsapp:+5218332326309' 
                           ) 
+            if len(whatsapp_message["imagenes"]) > 0:
+                print(idx)
+                print(whatsapp_message["imagenes"][idx])
+                message_response2 = client.messages.create( 
+                                from_='whatsapp:+14155238886',  
+                                media_url = whatsapp_message["imagenes"][idx],      
+                                to='whatsapp:+5218332326309' 
+                            ) 
+    elif len(whatsapp_message["imagenes"]) > 0:
+        for idx, val in enumerate(whatsapp_message["imagenes"]):
+            print(idx)
+            print(val)
+            message_response = client.messages.create( 
+                              from_='whatsapp:+14155238886',  
+                              MediaUrl = whatsapp_message["imagenes"][idx],      
+                              to='whatsapp:+5218332326309' 
+                          ) 
+    
 
 class GET_MESSAGE_WHATSAPP(Resource):
     def post(self):
