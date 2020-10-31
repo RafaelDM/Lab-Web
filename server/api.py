@@ -121,19 +121,19 @@ def watson_response(session_id1, message, source):
     print(response)
     print('\n')
 
-    print('INTENT?')
-    print(len(response['response']['output']['intents']) > 0)
-    print('THE INTENT')
-    print(response['response']['output']['intents'])
-    print('\n')
+    # print('INTENT?')
+    # print(len(response['response']['output']['intents']) > 0)
+    # print('THE INTENT')
+    # print(response['response']['output']['intents'])
+    # print('\n')
 
-    print('ENTITY?')
-    print(len(response['response']['output']['entities']) > 0)
-    print('THE ENTITY')
-    print(response['response']['output']['entities'][0]['entity'])
-    print('THE ENTITY VAlUE')
-    print(response['response']['output']['entities'][0]['value'])
-    print('\n')
+    # print('ENTITY?')
+    # print(len(response['response']['output']['entities']) > 0)
+    # print('THE ENTITY')
+    # print(response['response']['output']['entities'][0]['entity'])
+    # print('THE ENTITY VAlUE')
+    # print(response['response']['output']['entities'][0]['value'])
+    # print('\n')
 
     intent = ''
     entity = ''
@@ -148,7 +148,7 @@ def watson_response(session_id1, message, source):
         entity = response['response']['output']['entities'][0]["entity"]
         entity_value = response['response']['output']['entities'][0]["value"]
     elif len(response['response']['output']['intents']) > 0 and len(response['response']['output']['entities']) == 0:
-        intent = 'No_intent'
+        intent = response['response']['output']['intents'][0]["intent"]
         entity = 'No_entity'
         entity_value = 'No_entityValue'
     else:
@@ -251,17 +251,19 @@ def whatsapp_response(message):
 
     if len(whatsapp_message["mensaje"]) > 0: 
         for idx, val in enumerate(whatsapp_message["mensaje"]):
-            message_response = client.messages.create( 
-                              from_='whatsapp:+14155238886',  
-                              body=whatsapp_message["mensaje"][idx],      
-                              to='whatsapp:+5218332326309' 
-                          ) 
             if len(whatsapp_message["imagenes"]) > 0:
                 print(idx)
                 print(whatsapp_message["imagenes"][idx])
                 message_response2 = client.messages.create( 
-                                from_='whatsapp:+14155238886',  
+                                from_='whatsapp:+14155238886', 
+                                body=whatsapp_message["mensaje"][idx],  
                                 media_url = whatsapp_message["imagenes"][idx],      
+                                to='whatsapp:+5218332326309' 
+                            ) 
+            elif len(whatsapp_message["imagenes"]) == 0:
+                message_response = client.messages.create( 
+                                from_='whatsapp:+14155238886',  
+                                body=whatsapp_message["mensaje"][idx],      
                                 to='whatsapp:+5218332326309' 
                             ) 
     elif len(whatsapp_message["imagenes"]) > 0:
