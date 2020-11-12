@@ -30,6 +30,9 @@ account_sid = 'AC3e78880c8d4ae0f9f463b33acd709f08'
 auth_token = 'a7cf544c81244eac44bb20bce6919a3f' 
 client = Client(account_sid, auth_token) 
 
+number_to = 'whatsapp:+5218332326309' 
+number_from = 'whatsapp:+14155238886'
+
 load_dotenv()
 
 app = Flask(__name__)
@@ -137,10 +140,16 @@ def watson_response(session_id1, message, source):
         intent = response['response']['output']['intents'][0]["intent"]
         entity = 'No_entity'
         entity_value = 'No_entityValue'
+    elif len(response['response']['output']['intents']) == 0 and len(response['response']['output']['entities']) == 0:
+        intent = "anything_else"
+        entity = 'No_entity'
+        entity_value = 'No_entityValue'
     else:
         intent = 'No_intent'
 
     response_message = obtain_message(intent, entity, entity_value, source)
+
+    addAnalytics(intent, entity, entity_value, source, message)
 
     message_document = {
         "intent": intent,
@@ -184,15 +193,6 @@ def obtain_message(intent, entity, entity_value, source):
     db = client.get_default_database()
     responses = db['responses']
     intent_document = responses.find_one({"intent": intent, "entity": entity, "entity_value": entity_value})
-    print('INTENT?')
-    print(intent)
-    print('\n')
-
-    print('ENTITY?')
-    print(entity)
-    print('THE ENTITY VAlUE')
-    print(entity_value)
-    print('\n')
 
     if source == 'chatbot':
         response_message = intent_document['html']
@@ -200,6 +200,27 @@ def obtain_message(intent, entity, entity_value, source):
         response_message = intent_document['whatsapp']
     client.close()
     return response_message
+
+def addAnalytics(intent, entity, entity_value, source, message):
+    client = pymongo.MongoClient(uri)
+    db = client.get_default_database()
+    analytics = db['analytics']
+    unrecognized_messages = db['unrecognized_messages']
+
+    if intent == "anything_else": 
+        if unrecognized_messages.count_documents({ "message": message, "source": source }, limit = 1) != 0:
+            unrecognized_messages.update_one({"message": message, "source": source}, {'$inc': {"repetitions": 1}})
+        else:
+            new_unrecognized_message = {"message": message, "source": source, "repetitions": 1}
+            unrecognized_messages.insert_one(new_unrecognized_message)
+
+    if analytics.count_documents({ "intent": intent, "entity": entity, "entity_value": entity_value, "source": source }, limit = 1) != 0:
+        analytics.update_one({"intent": intent, "entity": entity, "entity_value": entity_value, "source": source}, {'$inc': {"requests": 1}})
+    else:
+        new_intent = {"intent": intent, "entity": entity, "entity_value": entity_value, "source": source, "requests": 1}
+        analytics.insert_one(new_intent)
+
+    client.close()
 
 class GET_MESSAGE_CHATBOT(Resource):
     def post(self):
@@ -221,25 +242,25 @@ def whatsapp_response(message):
                 print(idx)
                 print(whatsapp_message["imagenes"][idx])
                 message_response2 = client.messages.create( 
-                                from_='whatsapp:+14155238886', 
+                                from_=number_from, 
                                 body=whatsapp_message["mensaje"][idx],  
                                 media_url = whatsapp_message["imagenes"][idx],      
-                                to='whatsapp:+5218332326309' 
+                                to=number_to
                             ) 
             elif len(whatsapp_message["imagenes"]) == 0:
                 message_response = client.messages.create( 
-                                from_='whatsapp:+14155238886',  
+                                from_=number_from,  
                                 body=whatsapp_message["mensaje"][idx],      
-                                to='whatsapp:+5218332326309' 
+                                to=number_to
                             ) 
     elif len(whatsapp_message["imagenes"]) > 0:
         for idx, val in enumerate(whatsapp_message["imagenes"]):
             print(idx)
             print(val)
             message_response = client.messages.create( 
-                              from_='whatsapp:+14155238886',  
+                              from_=number_from,  
                               MediaUrl = whatsapp_message["imagenes"][idx],      
-                              to='whatsapp:+5218332326309' 
+                              to=number_to
                           ) 
     
 
