@@ -1,3 +1,5 @@
+
+/*
 .post{
     max-width: 500px;
     background-color: #15202B;
@@ -9,11 +11,51 @@
     border-color: rgb(56, 68, 77);
     border-radius: 3px;
 }
+*/
+.cardRow {
+    /*display: flex;
+    flex-direction: row;
+    flex-flow: wrap;
+    column-count: 4;
+    column-gap: 1em;
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0 auto;
+    padding: 30px;*/
+    
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    justify-content: center;
+    background-color: #183047;
+}
+
+.post{
+    position: relative;
+    background-color: #15202B;
+    border-style: groove;
+    border-radius: 28px;
+    /*box-shadow: 0 2px 5px rgb(134, 149, 214);*/
+    padding: 8px;
+    width: 240px;
+    margin: 16px;
+    float: left;
+    transition: 0.2s;
+}
+
+.post:hover{
+    /*box-shadow: 0 0 25px 1px rgba(0, 140, 186, 0.5);*/
+    box-shadow: 0 0 8px 1px rgba(255, 255, 255, 0.5);
+    transform: scale(1.10);
+}
+
 .imagePost{
     width: 100%;
     object-fit: contain;
     border-bottom: 1px solid #38444D;
     border-top: 1px solid #38444D;
+    box-shadow: 0 2px 5px rgb(234, 234, 235);
+    border-radius: 10px;
 }
 .postText{
     font-weight: normal;
@@ -22,10 +64,10 @@
 }
 .postHeader{
     display: flex;
-    padding: 20px;
-    align-items: center;
+    padding: 18px;
+    /*align-items: center;*/
     color: aliceblue;
 }
 .postAvatar{
-    margin-right: 10px;
+    margin-right: 6px;
 }

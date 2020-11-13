@@ -10,10 +10,10 @@
 }
 
 .loginPage{
-    color: white;
+    /*color: white;*/
     background-color: rgb(37, 51, 65);
     max-width: auto;
-    height: 700px;
+    height: 100%;
 
 }
 .logoPetifind{
