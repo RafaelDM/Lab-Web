@@ -2,7 +2,7 @@ import React,  {useState, useEffect} from "react";
 import "../App.css";
 import Post from "../Components/Post/Post";
 import {db} from "../DB/firebase.jsx";
-import Dogid from "../Components/dogID"
+import Dogid from "../Components/dogID";
 
 export default function Home ()
   {

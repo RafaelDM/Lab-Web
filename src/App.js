@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route , Redirect} from "react-router-d
 import "react-chat-widget/lib/styles.css";
 import Home from "./Pages/Home";
 import User from "./Pages/User";
+import Admin from "./Pages/Admin";
 import "./App.css";
 import Chat from "./Components/ChatBot";
 import "bootstrap/dist/css/bootstrap.css";
@@ -34,6 +35,7 @@ export default function App() {
         </Route>
       <Route path="/home" component={Home}/>
       <Route path="/user" component={User}/>
+      <Route path="/admin" component={Admin}/>
       </Switch>
   </Router>
   );
