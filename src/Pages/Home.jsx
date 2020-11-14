@@ -3,9 +3,12 @@ import "../App.css";
 import Post from "../Components/Post/Post";
 import {db} from "../DB/firebase.jsx";
 import Dogid from "../Components/dogID";
+import ImageUpload from "./../Components/ImageUpload";
+import { useAuth0 } from '@auth0/auth0-react';
 
 export default function Home ()
   {
+    const { user } = useAuth0();
     const [posts, setPosts] = useState([]);
     useEffect(()=>{
       db.collection('Posts').onSnapshot(snapshot=>{
@@ -32,6 +35,9 @@ export default function Home ()
                 <Post key={id} caption={post.caption} username={post.username} imageUrl={post.imageUrl}/>
             ))
             }
+
+            <ImageUpload username={user.name}></ImageUpload>
+            
         {/*</div>*/}
       {/*</div>*/}
       </div>
