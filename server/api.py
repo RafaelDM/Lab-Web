@@ -270,22 +270,21 @@ class GET_MESSAGE_WHATSAPP(Resource):
         whatsapp_response(message)
 
 
-@app.route('/getAnalytics', methods=['GET'])
-def getAnalyticsData():
 
-    data_analytics = [20, 30, 40,  50, 90] 
-    return jsonify(
-        data_analytics,
-        )
-
-        
-
-
-
-
+class GET_DATA(Resource):
+    def get(self):
+        data_analytics= [20,30,40,50,60]
+        labels = ["Adoption", 
+        "Adoptar Especifico",
+        "Information",
+        "Ubicaciones",
+        "Anything Else",
+        ]
+        return jsonify(data = data_analytics, labels = labels)
 
 api.add_resource(GET_MESSAGE_CHATBOT, '/getMessage')  # Route_1 Chatbot
 api.add_resource(GET_MESSAGE_WHATSAPP, '/getMessageWhatsapp')  # Route_2 Whatsapp 
+api.add_resource(GET_DATA, '/getAnalytics') # route 3
 
 if __name__ == '__main__':
     app.run(port='5002')
