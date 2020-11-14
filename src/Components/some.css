@@ -11,11 +11,12 @@
 
 .loginPage{
     /*color: white;*/
-    background-color: rgb(37, 51, 65);
+    background-color: #15202B;
     max-width: auto;
     height: 100%;
 
 }
+
 .logoPetifind{
     color:white;
     font-family: 'Sansita Swashed', cursive;

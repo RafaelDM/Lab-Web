@@ -28,15 +28,15 @@ export default function App() {
           </Row>
 
       </Container>
-    </div>
       <Switch>
       <Route exact path="/">
-          <Redirect to="/Home" />
+          <Redirect to="/home" />
         </Route>
       <Route path="/home" component={Home}/>
       <Route path="/user" component={User}/>
       <Route path="/admin" component={Admin}/>
       </Switch>
+      </div>
   </Router>
   );
 }

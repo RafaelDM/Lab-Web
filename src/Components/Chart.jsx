@@ -1,8 +1,12 @@
-import React  from "react";
+import React, {useEffect, useState} from "react";
 import {Bar } from 'react-chartjs-2';
+
+let data1 = []
 
 
 class Chart extends React.Component {
+  
+  
 
   constructor(props){
     super(props);
@@ -13,13 +17,7 @@ class Chart extends React.Component {
         datasets: [
           {
             label: 'Visited',
-            data: [
-              20,
-              30,
-              40,
-              50,
-              90
-            ],
+            data: [20, 30, 40,  50, 90],
               backgroundColor:[
               'rgba(255, 189, 58, 1)',
               'rgba(255, 0, 0, 0.46)',
@@ -36,8 +34,28 @@ class Chart extends React.Component {
   static defaultProps = {
     displayTitle:true,
     displayLegend:true, 
-    legendPosition:'top'
+    legendPosition:'top',
   }
+
+ componentDidMount(){
+  this.getData();
+  console.log(this.getData());
+    
+ }
+ getData( ()  =>
+
+ 
+  fetch('http://127.0.0.1:5002/getAnalytics').then(response => 
+  response.json().then(data =>{
+    data1 = data;
+    //setData(data);
+    //console.log(data1);
+    return(data);
+  }) );
+  );
+
+
+  
     render(){
         return (
             <div className="chart">

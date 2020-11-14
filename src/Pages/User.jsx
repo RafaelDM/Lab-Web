@@ -1,8 +1,10 @@
 import React from "react";
 import {Container, Col, Row, Card, Image, Button} from 'react-bootstrap';
 import { useAuth0 } from '@auth0/auth0-react';
+import "../App.css";
 
-export default function Home (){
+
+export default function User (){
 
 const { user } = useAuth0();
  

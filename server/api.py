@@ -270,6 +270,20 @@ class GET_MESSAGE_WHATSAPP(Resource):
         whatsapp_response(message)
 
 
+@app.route('/getAnalytics', methods=['GET'])
+def getAnalyticsData():
+
+    data_analytics = [20, 30, 40,  50, 90] 
+    return jsonify(
+        data_analytics,
+        )
+
+        
+
+
+
+
+
 api.add_resource(GET_MESSAGE_CHATBOT, '/getMessage')  # Route_1 Chatbot
 api.add_resource(GET_MESSAGE_WHATSAPP, '/getMessageWhatsapp')  # Route_2 Whatsapp 
 
