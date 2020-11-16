@@ -1,14 +1,27 @@
-import React from "react";
+import React,  {useState, useEffect} from "react";
 import {Container, Col, Row, Card, Image, Button} from 'react-bootstrap';
 import { useAuth0 } from '@auth0/auth0-react';
 import "../App.css";
-
+import Post from "../Components/Post/Post";
+import {db} from "../DB/firebase.jsx";
 
 export default function User (){
 
-const { user } = useAuth0();
- 
-console.log(user);
+const {user} = useAuth0();
+const [posts, setPosts] = useState([]);
+
+useEffect(()=>{
+  db.collection("Posts")
+  .where("username", "==", user.name)
+  .onSnapshot(snapshot=>{
+    setPosts(snapshot.docs.map(doc=>({
+      id: doc.id,
+      post: doc.data()
+    })));
+  })
+},[]);
+
+
     return (
       <Container fluid="md">
         <Row>
@@ -30,7 +43,15 @@ console.log(user);
             </Card>
           </Col>
         </Row>
-      </Container>
 
+
+      <div className="cardRow">
+  {
+  posts.map(({id, post})=>(
+      <Post key={id} caption={post.caption} username={post.username} imageUrl={post.imageUrl}/>
+  ))
+  }
+</div>
+</Container>
     );
 }
