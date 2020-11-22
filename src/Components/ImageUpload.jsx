@@ -3,21 +3,37 @@ import firebase from "firebase";
 import { storage, db } from "./../DB/firebase";
 import "./ImageUpload.css";
 import { Input, Button } from "@material-ui/core";
+import PublishIcon from '@material-ui/icons/Publish';
+import Fab from "@material-ui/core/Fab";
+import FileCopyIcon from '@material-ui/icons/FileCopy';
+import Zoom from "@material-ui/core/Zoom";
 
-const ImageUpload = ({ username }) => {
+function ImageUpload ({ username }) {
   const [image, setImage] = useState(null);
   const [url, setUrl] = useState("");
   const [progress, setProgress] = useState(0);
   const [caption, setCaption] = useState("");
+  const [expand, setExpand] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  function resetStates(){
+    setProgress(0);
+    setCaption("");
+    setImage(null);
+    setLoading(false);
+    setExpand(false);
+  }
 
   const handleChange = (e) => {
     if (e.target.files[0]) {
       setImage(e.target.files[0]);
     }
   };
-
-  const handleUpload = () => {
+  
+  const handleUpload = (e) => {
+  
     const uploadTask = storage.ref(`images/${image.name}`).put(image);
+    setLoading(true);
     uploadTask.on(
       "state_changed",
       (snapshot) => {
@@ -47,31 +63,40 @@ const ImageUpload = ({ username }) => {
               username: username,
               timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             });
-
-            setProgress(0);
-            setCaption("");
-            setImage(null);
+            resetStates();
           });
       }
     );
+    
   };
 
   return (
-    <div className="imageupload">
-      <progress className="imageupload__progress" value={progress} max="100" />
-      <Input
-        placeholder="Enter a caption"
-        value={caption}
-        onChange={(e) => setCaption(e.target.value)}
-      />
-      <div>
-        <input type="file" onChange={handleChange} />
-        <Button className="imageupload__button" onClick={handleUpload}>
-          Upload
-        </Button>
-      </div>
-
-      <br />
+    <div>
+      <form className="imageupload" onSubmit={(e)=>e.preventDefault()}>
+        {loading && (<progress className="imageupload__progress" value={progress} max="100" />)}
+        <textarea className="imageCapt"
+          placeholder="Enter a caption..."
+          value={caption}
+          onChange={(e) => setCaption(e.target.value)}
+          onClick={()=>setExpand(true)}
+          rows={expand? "2": "1"}
+        />
+          <Fab 
+            className="imageupload__button"  
+            type="submit" 
+            onClick={
+              (e)=>{if(image==null){
+                      alert("No image was provided!");
+                      resetStates();
+                    } else {
+                      handleUpload(e)
+                    }
+                  }}>
+            <PublishIcon />
+          </Fab>
+          <input type="file" onChange={handleChange} />
+        <br />
+      </form>
     </div>
   );
 };

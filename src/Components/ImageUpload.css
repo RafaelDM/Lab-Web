@@ -1,13 +1,54 @@
+
+/*
 .imageupload {
     display: flex;
     flex-direction: column;
     width: 60%;
     margin-left: auto;
     margin-right: auto;
+  }*/
+
+  .inputBack{
+    background-color: #183047;
+    background-image: url("https://www.transparenttextures.com/patterns/black-thread-light.png");
+
+  }
+
+  form.imageupload {
+    position: relative;
+    width: 50%;
+    margin: 30px auto 41px auto;
+    background: #fff;
+    padding: 15px;
+    border-radius: 7px;
+    box-shadow: 0 1px 5px rgb(138, 137, 137);
+  }
+
+  form textarea {
+    width: 100%;
+    border: none;
+    padding: 4px;
+    outline: none;
+    font-size: 1.2em;
+    font-family: inherit;
+    resize: none;
+  }
+
+  .imageupload__button  {
+    position: relative;
+    float: right;
+    margin-right: 2px;
+    top: -30px;
+    color: #f5ba13;
+    border: none;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    outline: none;
   }
   
   .imageupload__progress {
-    width: 100%;
+    width: 80%;
   }
   
   .imageupload__button {
