@@ -12,8 +12,9 @@
 .loginPage{
     /*color: white;*/
     background-color: #15202B;
-    max-width: auto;
-    height: 100%;
+    max-height: 100vh;
+    height: 100vh;
+    width: auto;
 
 }
 
@@ -29,7 +30,7 @@
       border: 0ch;
   }
   .cardCar{
-    background-color: rgb(32, 60, 85);
+    background-color:rgb(37, 51, 65) ;
     border-color: rgb(37, 51, 65) ;
     border: 0ch;
   }

@@ -39,8 +39,8 @@ class NavBarAdmin extends React.Component {
         <Nav className="mr-auto">
           <Nav.Link href="/home">Home</Nav.Link>
           <Nav.Link href="/user">User</Nav.Link>
-          <Nav.Link href="/home">Admin</Nav.Link>
-          <Nav.Link href="/user">AdminDos</Nav.Link>
+          <Nav.Link href="/Admin">Admin</Nav.Link>
+          <Nav.Link href="/AdminDos">AdminDos</Nav.Link>
         </Nav>
         <LogoutButton/>
       </Navbar>

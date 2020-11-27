@@ -37,8 +37,8 @@ export default function App() {
           </Route>
         <Route path="/home" component={Home}/>
         <Route path="/user" component={User}/>
-        <Route path="/admin" component={Admin}/>
-        <Route path="/adminDos" component={AdminDos}/>
+        <Route path="/Admin" component={Admin}/>
+        <Route path="/AdminDos" component={AdminDos}/>
         </Switch>
         </div>
         </Router>

@@ -2,19 +2,12 @@
 
 .App {
   background-color: #15202B;
+  max-height: auto;
+  min-height: 100vh;
   height: auto;
   width: auto;
 }
-.Home{
-  background-color: #15202B;
-  height: 100%;
-  width: 100%;
-}
-.User{
-  background-color: #15202B;
-  height: 100%;
-  width: 100%;
-}
+
 .card-img{
   border-radius: 40%;
 }
