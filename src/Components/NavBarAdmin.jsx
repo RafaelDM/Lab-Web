@@ -4,7 +4,7 @@ import { Navbar, Nav, Form, FormControl} from "react-bootstrap";
 import LogoutButton from './Logout';
 import "./some.css";
 
-class NavBar extends React.Component {
+class NavBarAdmin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -39,10 +39,12 @@ class NavBar extends React.Component {
         <Nav className="mr-auto">
           <Nav.Link href="/home">Home</Nav.Link>
           <Nav.Link href="/user">User</Nav.Link>
+          <Nav.Link href="/home">Admin</Nav.Link>
+          <Nav.Link href="/user">AdminDos</Nav.Link>
         </Nav>
         <LogoutButton/>
       </Navbar>
     );
   }
 }
-export default NavBar;
+export default NavBarAdmin;
