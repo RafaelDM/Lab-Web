@@ -1,23 +1,13 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import {Container, Col, Row} from 'react-bootstrap';
-import Chart from "../Components/Chart.jsx";
+import Chart2 from "../Components/Chart2.jsx";
 import "../App.css";
 
-let data1
+
 
 export default function AdminDos() {
 
-  const [data, setData] = useState();
 
-  useEffect(() => {
-    fetch('http://127.0.0.1:5002/getAnalytics').then(response => 
-    response.json().then(data =>{
-      data1 = data;
-      //setData(data);
-      //console.log(data1);
-    }) );
-  }
-  , []);
 
 
     return (
@@ -27,7 +17,7 @@ export default function AdminDos() {
           <Col></Col>
           <Col></Col>
 
-                <Chart legendPosition="bottom" data= {data1}/>
+                <Chart2 legendPosition="bottom" />
           <Col></Col>
         </Row>
         </Container>

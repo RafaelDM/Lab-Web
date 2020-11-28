@@ -1,7 +1,7 @@
-  import React from "react";
+  import React  from "react";
   import { Bar } from "react-chartjs-2";
   
-  class Chart extends React.Component {
+  class Chart2 extends React.Component {
     constructor(props) {
       super(props);
   
@@ -12,7 +12,7 @@
  
   
     getData = () => {
-      fetch("http://127.0.0.1:5002/getAnalytics").then((response) =>
+      fetch("http://127.0.0.1:5002/getAnalytics2").then((response) =>
         response.json().then((data) => {
           this.setState({
             chartData: {
@@ -27,6 +27,11 @@
                     "rgba(51,153,102,1)",
                     "rgba(51,153,204,1)",
                     "rgba(74, 224, 173, 1)",
+                    "rgba(99, 248, 73, 1)",
+                    "rgba(83, 105, 249, 1)",
+                    "rgba(174, 249, 83, 1)",
+                    "rgba(249, 83, 86, 1)",
+                    "rgba(249, 163, 83, 1)",
                   ],
                 },
               ],
@@ -54,7 +59,7 @@
             options={{
               title: {
                 display: this.props.displayTitle,
-                text: "Intents visited ",
+                text: "Entities Visited ",
                 fontSize: 25,
               },
               legend: {
@@ -81,7 +86,7 @@
       );
     }
   }
-  export default Chart;
+  export default Chart2;
   
 
   
