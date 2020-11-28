@@ -59,7 +59,7 @@
             options={{
               title: {
                 display: this.props.displayTitle,
-                text: "Entities Visited ",
+                text: "Unrecognized Messages",
                 fontSize: 25,
               },
               legend: {
