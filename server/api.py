@@ -22,12 +22,46 @@ from flask import jsonify
 import sys
 import pymongo
 
+# Firebase libraries
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import storage
+# Import UUID4 to create token
+from uuid import uuid4
+
+image_url = 'https://s3-external-1.amazonaws.com/media.twiliocdn.com/AC3e78880c8d4ae0f9f463b33acd709f08/5af2b92dd73f84f20db063456dd29751' #we pass the url as an argument
+
+cred = credentials.Certificate('./petifind-fb.json')
+# default_app = firebase_admin.initialize_app(cred)
+# print(default_app)
+firebase_admin.initialize_app(cred, {
+    'storageBucket': 'petifind-b607c.appspot.com'
+})
+bucket = storage.bucket()
+
+# Create new token
+new_token = uuid4()
+
+# Create new dictionary with the metadata
+metadata  = {"firebaseStorageDownloadTokens": new_token}
+
+image_data = requests.get(image_url).content
+blob = bucket.blob('images/prueba9.jpg')
+# Set metadata to blob
+blob.metadata = metadata
+blob.upload_from_string(
+        image_data,
+        content_type='image/jpg'
+    )
+blob.make_public()
+print(blob.public_url)
+
 ## Connect to mongo
 uri = "mongodb+srv://user_web:hola123@avotar.umbnv.mongodb.net/perrosperdidos?retryWrites=true&w=majority"
 
 ## Whatsapp/Twilio id, token
 account_sid = 'AC3e78880c8d4ae0f9f463b33acd709f08' 
-auth_token = 'a7cf544c81244eac44bb20bce6919a3f' 
+auth_token = 'a84b73ec9d3477c622a1099090b31795' 
 client = Client(account_sid, auth_token) 
 
 number_to = 'whatsapp:+5218332326309' 
@@ -230,7 +264,6 @@ def get_all_intents():
     allIntents = []
 
     for document in cursor:
-        print(type(document))
         intent_object = {"intent": document['intent'], "entity": document['entity'], "entity_value": document['entity_value'], "source": document['source'], "requests": document['requests']}
         allIntents.append(intent_object)
 
@@ -282,8 +315,6 @@ def whatsapp_response(message):
     if len(whatsapp_message["mensaje"]) > 0: 
         for idx, val in enumerate(whatsapp_message["mensaje"]):
             if len(whatsapp_message["imagenes"]) > 0:
-                print(idx)
-                print(whatsapp_message["imagenes"][idx])
                 message_response2 = client.messages.create( 
                                 from_=number_from, 
                                 body=whatsapp_message["mensaje"][idx],  
@@ -298,8 +329,6 @@ def whatsapp_response(message):
                             ) 
     elif len(whatsapp_message["imagenes"]) > 0:
         for idx, val in enumerate(whatsapp_message["imagenes"]):
-            print(idx)
-            print(val)
             message_response = client.messages.create( 
                               from_=number_from,  
                               MediaUrl = whatsapp_message["imagenes"][idx],      
@@ -309,6 +338,7 @@ def whatsapp_response(message):
 
 class GET_MESSAGE_WHATSAPP(Resource):
     def post(self):
+        print(request.values)
         message = request.values.get("Body")
         whatsapp_response(message)
 

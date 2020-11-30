@@ -20,7 +20,6 @@ var administradores= "Nayra 1316 Edu Balez isa mqd Raziel MartÍnez"
 export default function App() {
   
   const {user} = useAuth0();
-  console.log(user);
   if(administradores.includes(user.name)){
     return (
       <Router>

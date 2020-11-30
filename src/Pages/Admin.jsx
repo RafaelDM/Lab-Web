@@ -3,8 +3,6 @@ import {Container, Col, Row} from 'react-bootstrap';
 import Chart from "../Components/Chart.jsx";
 import "../App.css";
 
-
-
 export default function Admin() {
 
     return (

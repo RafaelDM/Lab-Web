@@ -19,7 +19,7 @@
               labels: data.labels,
               datasets: [
                 {
-                  label: "Visited",
+                  label: "Número de reconocimientos",
                   data: data.data,
                   backgroundColor: [
                     "rgba(255, 189, 58, 1)",
@@ -54,7 +54,7 @@
             options={{
               title: {
                 display: this.props.displayTitle,
-                text: "Intents visited ",
+                text: " 5 Intentos más reconocidos ",
                 fontSize: 25,
               },
               legend: {
