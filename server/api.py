@@ -5,6 +5,7 @@ import os
 import json
 import logging
 import requests
+import re
 
 import flask
 from flask import Flask, request
@@ -26,38 +27,22 @@ import pymongo
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import storage
+from firebase_admin import firestore
 # Import UUID4 to create token
 from uuid import uuid4
 
 image_url = 'https://s3-external-1.amazonaws.com/media.twiliocdn.com/AC3e78880c8d4ae0f9f463b33acd709f08/5af2b92dd73f84f20db063456dd29751' #we pass the url as an argument
 
 cred = credentials.Certificate('./petifind-fb.json')
-# default_app = firebase_admin.initialize_app(cred)
-# print(default_app)
 firebase_admin.initialize_app(cred, {
     'storageBucket': 'petifind-b607c.appspot.com'
 })
 bucket = storage.bucket()
 
-# Create new token
-new_token = uuid4()
-
-# Create new dictionary with the metadata
-metadata  = {"firebaseStorageDownloadTokens": new_token}
-
-image_data = requests.get(image_url).content
-blob = bucket.blob('images/prueba9.jpg')
-# Set metadata to blob
-blob.metadata = metadata
-blob.upload_from_string(
-        image_data,
-        content_type='image/jpg'
-    )
-blob.make_public()
-print(blob.public_url)
-
 ## Connect to mongo
 uri = "mongodb+srv://user_web:hola123@avotar.umbnv.mongodb.net/perrosperdidos?retryWrites=true&w=majority"
+
+firebase_db = firestore.client()
 
 ## Whatsapp/Twilio id, token
 account_sid = 'AC3e78880c8d4ae0f9f463b33acd709f08' 
@@ -298,6 +283,36 @@ def get_unrecognized_messages():
     client.close()
     return unrecognized_messages
 
+s = 'username:"Username"caption:"el comentario que quieras"'
+username = re.search('username:"(.*?)"', s)
+caption = re.search('caption:"(.*?)"', s)
+print(username.group(1))
+print(caption.group(1))
+
+def create_post():
+    # Create new token
+    new_token = uuid4()
+    # Create new dictionary with the metadata
+    metadata  = {"firebaseStorageDownloadTokens": new_token}
+    image_data = requests.get(image_url).content
+    blob = bucket.blob('images/prueba10.jpg')
+    # Set metadata to blob
+    blob.metadata = metadata
+    blob.upload_from_string(
+            image_data,
+            content_type='image/jpg'
+        )
+    blob.make_public()
+    # doc_ref = firebase_db.collection(u'Posts').document(u'alovelace')
+    doc_ref = firebase_db.collection(u'Posts').document()
+    doc_ref.set({
+        u'first': u'Ada',
+        u'last': u'Lovelace',
+        u'born': 1815
+    })
+    print(blob.public_url)
+
+
 class GET_MESSAGE_CHATBOT(Resource):
     def post(self):
         message = request.json["message"]
@@ -339,8 +354,19 @@ def whatsapp_response(message):
 class GET_MESSAGE_WHATSAPP(Resource):
     def post(self):
         print(request.values)
-        message = request.values.get("Body")
-        whatsapp_response(message)
+        body = request.values.get("Body")
+        numMedia = request.values.get("NumMedia")
+        if body is '' and numMedia == '1':
+            print("Dios de los perros")
+            print('\n')
+        elif body != '' and numMedia == '1': 
+            print('2')
+            create_post()
+            print('\n')
+        else: 
+            message = request.values.get("Body")
+            whatsapp_response(message)
+            print('\n')
 
 class GET_TOP_FIVE_INTENTS(Resource):
     def get(self):
