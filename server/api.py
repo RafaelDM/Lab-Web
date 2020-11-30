@@ -283,13 +283,12 @@ def get_unrecognized_messages():
     client.close()
     return unrecognized_messages
 
-s = 'username:"Username"caption:"el comentario que quieras"'
-username = re.search('username:"(.*?)"', s)
-caption = re.search('caption:"(.*?)"', s)
-print(username.group(1))
-print(caption.group(1))
-
-def create_post():
+def create_post(body):
+    print(body)
+    username = re.search('username:”(.*?)”', body).group(1)
+    caption = re.search('caption:”(.*?)”', body).group(1)
+    print(username)
+    print(caption)
     # Create new token
     new_token = uuid4()
     # Create new dictionary with the metadata
@@ -304,11 +303,13 @@ def create_post():
         )
     blob.make_public()
     # doc_ref = firebase_db.collection(u'Posts').document(u'alovelace')
-    doc_ref = firebase_db.collection(u'Posts').document()
+    doc_ref = firebase_db.collection(u'Posts').document(u'prueba')
     doc_ref.set({
-        u'first': u'Ada',
-        u'last': u'Lovelace',
-        u'born': 1815
+        u'imageUrl': blob.public_url,
+        u'caption': caption,
+        u'username': username,
+        u'timestamp':firestore.SERVER_TIMESTAMP
+        # u'born': 1815
     })
     print(blob.public_url)
 
@@ -361,7 +362,7 @@ class GET_MESSAGE_WHATSAPP(Resource):
             print('\n')
         elif body != '' and numMedia == '1': 
             print('2')
-            create_post()
+            create_post(body)
             print('\n')
         else: 
             message = request.values.get("Body")
