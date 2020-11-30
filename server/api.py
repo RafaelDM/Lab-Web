@@ -222,6 +222,49 @@ def addAnalytics(intent, entity, entity_value, source, message):
 
     client.close()
 
+def get_all_intents():
+    client = pymongo.MongoClient(uri)
+    db = client.get_default_database()
+    analytics = db['analytics']
+    cursor = analytics.find({}).sort("requests", -1)   
+    allIntents = []
+
+    for document in cursor:
+        print(type(document))
+        intent_object = {"intent": document['intent'], "entity": document['entity'], "entity_value": document['entity_value'], "source": document['source'], "requests": document['requests']}
+        allIntents.append(intent_object)
+
+    client.close()
+    return allIntents
+
+def get_top_five_intents():
+    all_intents = get_all_intents();
+  
+    intentsLabels = []
+    intentsRequests = [];
+    x = range(5)
+
+    for i in x:
+        intentsLabels.append(all_intents[i]['intent'])
+        intentsRequests.append(all_intents[i]['requests'])
+
+    topFiveIntents = {"labels": intentsLabels, "requests": intentsRequests}
+    return topFiveIntents
+
+def get_unrecognized_messages():
+    client = pymongo.MongoClient(uri)
+    db = client.get_default_database()
+    unrecognized_messages_c = db['unrecognized_messages']
+    cursor = unrecognized_messages_c.find({}).sort("repetitions", -1) 
+    unrecognized_messages = []
+
+    for document in cursor:
+        um_object = {"message": document['message'], "source": document['source'], "repetitions": document['repetitions']}
+        unrecognized_messages.append(um_object)
+
+    client.close()
+    return unrecognized_messages
+
 class GET_MESSAGE_CHATBOT(Resource):
     def post(self):
         message = request.json["message"]
@@ -269,34 +312,28 @@ class GET_MESSAGE_WHATSAPP(Resource):
         message = request.values.get("Body")
         whatsapp_response(message)
 
-
-
-class GET_DATA(Resource):
+class GET_TOP_FIVE_INTENTS(Resource):
     def get(self):
-        data_analytics= [30,30,40,50,60]
-        labels = ["Adoption", 
-        "Adoptar Especifico",
-        "Information",
-        "Ubicaciones",
-        "Anything Else",
-        ]
-        return jsonify(data = data_analytics, labels = labels)
+        topFiveIntents = get_top_five_intents();
+        requests_number = topFiveIntents['requests']
+        labels = topFiveIntents['labels']
+        return jsonify(data = requests_number, labels = labels)
 
-class GET_DATA2(Resource):
+class GET_UNRECOGNIZED_MESSAGES(Resource):
     def get(self):
-        data_analytics= [10,20,5,8,19]
-        labels = ["Adoption", 
-        "Adoptar Especifico",
-        "Information",
-        "Ubicaciones",
-        "Anything Else",
-        ]
-        return jsonify(data = data_analytics, labels = labels)
+        unrecognized_messages = get_unrecognized_messages()
+        return jsonify(unrecognized_messages)
+
+class GET_ALL_INTENTS(Resource):
+    def get(self):
+        intents = get_all_intents()
+        return jsonify(intents)
 
 api.add_resource(GET_MESSAGE_CHATBOT, '/getMessage')  # Route_1 Chatbot
 api.add_resource(GET_MESSAGE_WHATSAPP, '/getMessageWhatsapp')  # Route_2 Whatsapp 
-api.add_resource(GET_DATA, '/getAnalytics') # route 3
-api.add_resource(GET_DATA2, '/getAnalytics2')
+api.add_resource(GET_TOP_FIVE_INTENTS, '/getAnalytics') # route 3
+api.add_resource(GET_ALL_INTENTS, '/getAllintents') # route 4
+api.add_resource(GET_UNRECOGNIZED_MESSAGES, '/getUnrecognizedMessages') # route 5
 
 if __name__ == '__main__':
     app.run(port='5002')

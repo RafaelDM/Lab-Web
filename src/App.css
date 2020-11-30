@@ -110,3 +110,22 @@
   display: table;
   clear: both;
 }
+
+.pageTitle {
+  color: white;
+  text-align: center;
+  margin-top: 24px;
+}
+
+.paragraphText {
+  color: white;
+  text-align: center;
+  margin-top: 24px;
+  padding-left: 100px;
+  padding-right: 100px;
+} 
+
+.tableContainer {
+  padding: 50px 200px 50px 200px;
+  display: flex;
+}

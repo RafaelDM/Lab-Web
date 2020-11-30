@@ -40,7 +40,9 @@ class NavBarAdmin extends React.Component {
           <Nav.Link href="/home">Home</Nav.Link>
           <Nav.Link href="/user">User</Nav.Link>
           <Nav.Link href="/Admin">Admin</Nav.Link>
-          <Nav.Link href="/AdminDos">AdminDos</Nav.Link>
+          <Nav.Link href="/Allintents">All intents</Nav.Link>
+          <Nav.Link href="/UnrecognizedMessages">Mensajes no reconocidos</Nav.Link>
+          {/* <Nav.Link href="/AdminDos">AdminDos</Nav.Link> */}
         </Nav>
         <LogoutButton/>
       </Navbar>
