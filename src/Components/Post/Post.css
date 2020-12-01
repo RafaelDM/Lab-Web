@@ -64,8 +64,8 @@
 }
 .postHeader{
     display: flex;
-    padding: 18px;
-    /*align-items: center;*/
+    padding: 10px;
+    align-items: center;
     color: aliceblue;
 }
 .postAvatar{
@@ -76,6 +76,12 @@
     color: white;
     font-size: 22px;
     padding-left: 20px;
+}
+
+.postUsername {
+    color: white;
+    font-size: 15px;
+    padding-left: 5px;
 }
 
 .postInfoContainer {

@@ -62,6 +62,7 @@ function ImageUpload ({ username }) {
             db.collection("Posts").add({
               imageUrl: url,
               caption: caption,
+              contacto: contact,
               username: username,
               timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             });
