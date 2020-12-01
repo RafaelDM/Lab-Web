@@ -71,7 +71,7 @@ class Chat extends React.Component{
     return(
       <Widget
         handleNewUserMessage={this.handleNewUserMessage}
-        title="CHATBOT"
+        title="PugBerto"
         subtitle="Ask me"
         />
         //<Carrousel dogTitle={"Hola Soy un perro"} imageCar={"https://64.media.tumblr.com/fa7297b4cb7a85476ff749055da39615/bd1377c44bd08281-94/s540x810/a1ef2f725ab1ea344023eaefde5c8af972634c1d.gifv"}/>

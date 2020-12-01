@@ -299,6 +299,7 @@ def create_post(body):
         print(body)
         username = re.search('username:’(.*?)’', body).group(1)
         caption = re.search('caption:’(.*?)’', body).group(1)
+        contacto = re.search('contacto:’(.*?)’', body).group(1)
         print(username)
         print(caption)
         # Create new token
@@ -319,7 +320,8 @@ def create_post(body):
             u'imageUrl': blob.public_url,
             u'caption': caption,
             u'username': username,
-            u'timestamp':firestore.SERVER_TIMESTAMP
+            u'timestamp':firestore.SERVER_TIMESTAMP,
+            u'contacto': contacto
         })
         message_response = client.messages.create( 
                               from_=number_from,  
@@ -330,7 +332,7 @@ def create_post(body):
     except:
         message_response = client.messages.create( 
                               from_=number_from,  
-                              body="Hubo un error al intentar hacer tu publicación. Recuerda que el formato para hacer la publicación es: username: 'Username' caption: 'el comentario que quieras'",   
+                              body="Hubo un error al intentar hacer tu publicación. Recuerda que el formato para hacer la publicación es: username: 'Username' caption: 'el comentario que quieras' contacto: 'el comentario que quieras'",   
                               to=number_to
                           ) 
         
