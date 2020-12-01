@@ -15,8 +15,10 @@ function Post({username, caption, imageUrl, contacto}) {
         </div>
             <img className="imagePost" src={imageUrl}></img>
             <div className="postInfoContainer">
-                <p className="postCaption">Sobre el perro: {caption}</p>
-                <p className="postCaption">Contacto: {contacto}</p>
+                <h4 className="postSubtitle">Sobre el perro</h4>
+                <p className="postCaption">{caption}</p>
+                <h4 className="postSubtitle">Contacto</h4>
+                <p className="postCaption">{contacto}</p>
             </div>
         </div>
 

@@ -62,6 +62,13 @@
     padding: 20px;
     color: aliceblue;
 }
+
+.postSubtitle {
+    color: white;
+    font-size: 22px;
+    padding-left: 20px;
+}
+
 .postHeader{
     display: flex;
     padding: 10px;
@@ -74,7 +81,7 @@
 
 .postCaption {
     color: white;
-    font-size: 22px;
+    font-size: 18px;
     padding-left: 20px;
 }
 
@@ -89,4 +96,5 @@
     justify-content: center;
     align-items: flex-start;
     flex-direction: column;
+    padding-top: 20px
 }
