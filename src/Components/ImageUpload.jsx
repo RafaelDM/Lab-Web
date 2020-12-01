@@ -13,12 +13,14 @@ function ImageUpload ({ username }) {
   const [url, setUrl] = useState("");
   const [progress, setProgress] = useState(0);
   const [caption, setCaption] = useState("");
+  const [contact, setContact] = useState("");
   const [expand, setExpand] = useState(false);
   const [loading, setLoading] = useState(false);
 
   function resetStates(){
     setProgress(0);
     setCaption("");
+    setContact("");
     setImage(null);
     setLoading(false);
     setExpand(false);
@@ -78,6 +80,13 @@ function ImageUpload ({ username }) {
           placeholder="Enter a caption..."
           value={caption}
           onChange={(e) => setCaption(e.target.value)}
+          onClick={()=>setExpand(true)}
+          rows={expand? "2": "1"}
+        />
+        <textarea className="imageCapt"
+          placeholder="Enter a contact..."
+          value={contact}
+          onChange={(e) => setContact(e.target.value)}
           onClick={()=>setExpand(true)}
           rows={expand? "2": "1"}
         />

@@ -71,3 +71,16 @@
 .postAvatar{
     margin-right: 6px;
 }
+
+.postCaption {
+    color: white;
+    font-size: 22px;
+    padding-left: 20px;
+}
+
+.postInfoContainer {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+}

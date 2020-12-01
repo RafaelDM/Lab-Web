@@ -147,23 +147,34 @@ def watson_response(session_id1, message, source):
     entity = ''
     entity_value = ''
 
+    print(response['response']['output']['generic'][0]['text'])
+
     if len(response['response']['output']['intents']) > 0 and len(response['response']['output']['entities']) > 0:
+        print("1")
         intent = response['response']['output']['intents'][0]["intent"]
         entity = response['response']['output']['entities'][0]["entity"]
         entity_value = response['response']['output']['entities'][0]["value"]
-    elif len(response['response']['output']['intents']) == 0 and len(response['response']['output']['entities']) > 0:
+    elif len(response['response']['output']['intents']) == 0 and len(response['response']['output']['entities']) > 0 and response['response']['output']['generic'][0]['text'] != 'Disculpa no entendí lo que quisiste decir. ¿Te puedo ayudar de alguna otra manera?':
+        print("2")
         intent = 'No_intent'
         entity = response['response']['output']['entities'][0]["entity"]
         entity_value = response['response']['output']['entities'][0]["value"]
     elif len(response['response']['output']['intents']) > 0 and len(response['response']['output']['entities']) == 0:
+        print("3")
         intent = response['response']['output']['intents'][0]["intent"]
         entity = 'No_entity'
         entity_value = 'No_entityValue'
     elif len(response['response']['output']['intents']) == 0 and len(response['response']['output']['entities']) == 0:
+        print("4")
+        intent = "anything_else"
+        entity = 'No_entity'
+        entity_value = 'No_entityValue'
+    elif response['response']['output']['generic'][0]['text'] == 'Disculpa no entendí lo que quisiste decir. ¿Te puedo ayudar de alguna otra manera?':
         intent = "anything_else"
         entity = 'No_entity'
         entity_value = 'No_entityValue'
     else:
+        print("5")
         intent = 'No_intent'
 
     response_message = obtain_message(intent, entity, entity_value, source)
@@ -284,35 +295,45 @@ def get_unrecognized_messages():
     return unrecognized_messages
 
 def create_post(body):
-    print(body)
-    username = re.search('username:”(.*?)”', body).group(1)
-    caption = re.search('caption:”(.*?)”', body).group(1)
-    print(username)
-    print(caption)
-    # Create new token
-    new_token = uuid4()
-    # Create new dictionary with the metadata
-    metadata  = {"firebaseStorageDownloadTokens": new_token}
-    image_data = requests.get(image_url).content
-    blob = bucket.blob('images/prueba10.jpg')
-    # Set metadata to blob
-    blob.metadata = metadata
-    blob.upload_from_string(
-            image_data,
-            content_type='image/jpg'
-        )
-    blob.make_public()
-    # doc_ref = firebase_db.collection(u'Posts').document(u'alovelace')
-    doc_ref = firebase_db.collection(u'Posts').document(u'prueba')
-    doc_ref.set({
-        u'imageUrl': blob.public_url,
-        u'caption': caption,
-        u'username': username,
-        u'timestamp':firestore.SERVER_TIMESTAMP
-        # u'born': 1815
-    })
-    print(blob.public_url)
-
+    try:
+        print(body)
+        username = re.search('username:’(.*?)’', body).group(1)
+        caption = re.search('caption:’(.*?)’', body).group(1)
+        print(username)
+        print(caption)
+        # Create new token
+        new_token = uuid4()
+        # Create new dictionary with the metadata
+        metadata  = {"firebaseStorageDownloadTokens": new_token}
+        image_data = requests.get(image_url).content
+        blob = bucket.blob('images/prueba10.jpg')
+        # Set metadata to blob
+        blob.metadata = metadata
+        blob.upload_from_string(
+                image_data,
+                content_type='image/jpg'
+            )
+        blob.make_public()
+        doc_ref = firebase_db.collection(u'Posts').document()
+        doc_ref.set({
+            u'imageUrl': blob.public_url,
+            u'caption': caption,
+            u'username': username,
+            u'timestamp':firestore.SERVER_TIMESTAMP
+        })
+        message_response = client.messages.create( 
+                              from_=number_from,  
+                              body='Tu publicación fue realizada correctamente.',   
+                              to=number_to
+                          ) 
+        print(blob.public_url)
+    except:
+        message_response = client.messages.create( 
+                              from_=number_from,  
+                              body="Hubo un error al intentar hacer tu publicación. Recuerda que el formato para hacer la publicación es: username: 'Username' caption: 'el comentario que quieras'",   
+                              to=number_to
+                          ) 
+        
 
 class GET_MESSAGE_CHATBOT(Resource):
     def post(self):

@@ -31,7 +31,8 @@ export default function Home ()
                     key={id} 
                     caption={post.caption} 
                     username={post.username} 
-                    imageUrl={post.imageUrl}/>
+                    imageUrl={post.imageUrl}
+                    contacto={post.contacto}/>
               ))}
         </div>
       </div>
